@@ -141,7 +141,7 @@ class MoviesTableViewController: UITableViewController {
             movie = movies[indexPath.row]
         }
         
-        cell.configureCell(movie: movie)
+        cell.movie = movie
 
         return cell
     }

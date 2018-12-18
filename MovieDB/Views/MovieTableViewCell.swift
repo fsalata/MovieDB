@@ -16,39 +16,36 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var releaseDate: UILabel!
     @IBOutlet weak var infoView: UIView!
     
+    var movie: MovieViewModel! {
+        didSet {
+            self.poster.image = UIImage(named: "backdropPlaceholder")
+            
+            if let backdropPath = movie.backdropPath {
+                if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
+                    self.poster.image = cachedImage
+                }
+                else {
+                    self.poster.load(url: backdropPath)
+                }
+            }
+            
+            self.title.text = movie.title
+            
+            self.genres.text = movie.genres
+            
+            self.releaseDate.text =  movie.releaseDate
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         infoView.addBlurEffect()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
         containerView.layer.cornerRadius = 5
         containerView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-    }
-
-    func configureCell(movie: MovieViewModel) {
-        self.poster.image = UIImage(named: "backdropPlaceholder")
-        
-        if let backdropPath = movie.backdropPath{
-            if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
-                self.poster.image = cachedImage
-            }
-            else {
-                self.poster.load(url: backdropPath)
-            }
-        }
-        
-        self.title.text = movie.title
-        
-        self.genres.text = movie.genres
-    
-        self.releaseDate.text =  movie.releaseDate
     }
 }
