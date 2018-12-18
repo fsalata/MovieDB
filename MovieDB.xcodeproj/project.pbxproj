@@ -13,7 +13,6 @@
 		E467A5F321B326C7000521B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E467A5F121B326C7000521B7 /* Main.storyboard */; };
 		E467A5F521B326C8000521B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E467A5F421B326C8000521B7 /* Assets.xcassets */; };
 		E467A5F821B326C8000521B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E467A5F621B326C8000521B7 /* LaunchScreen.storyboard */; };
-		E467A60121B3296C000521B7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = E467A60021B3296C000521B7 /* .swiftlint.yml */; };
 		E467A60421B32B23000521B7 /* DataLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467A60321B32B23000521B7 /* DataLoading.swift */; };
 		E467A60621B32E4A000521B7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E467A60521B32E4A000521B7 /* API.swift */; };
 		E467A60821B32E74000521B7 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = E467A60721B32E74000521B7 /* .gitignore */; };
@@ -42,7 +41,6 @@
 		E467A5F421B326C8000521B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E467A5F721B326C8000521B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E467A5F921B326C8000521B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E467A60021B3296C000521B7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		E467A60321B32B23000521B7 /* DataLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoading.swift; sourceTree = "<group>"; };
 		E467A60521B32E4A000521B7 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		E467A60721B32E74000521B7 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 			children = (
 				E467A5EC21B326C7000521B7 /* MovieDB */,
 				E467A5EB21B326C7000521B7 /* Products */,
-				E467A60021B3296C000521B7 /* .swiftlint.yml */,
 				E467A60721B32E74000521B7 /* .gitignore */,
 			);
 			sourceTree = "<group>";
@@ -253,7 +250,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E467A60821B32E74000521B7 /* .gitignore in Resources */,
-				E467A60121B3296C000521B7 /* .swiftlint.yml in Resources */,
 				E467A5F821B326C8000521B7 /* LaunchScreen.storyboard in Resources */,
 				E467A5F521B326C8000521B7 /* Assets.xcassets in Resources */,
 				E467A5F321B326C7000521B7 /* Main.storyboard in Resources */,
