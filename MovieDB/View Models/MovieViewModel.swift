@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct MovieViewModel {
     let title: String
@@ -29,6 +30,8 @@ struct MovieViewModel {
         self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres) ?? ""
         
         self.overview = movie.overview ?? ""
+        
+        MovieViewModel.getBackdropImages(backdropPath: self.backdropPath)
     }
     
     fileprivate static func formatDateFrom(string dateString: String?) -> String? {
@@ -52,5 +55,17 @@ struct MovieViewModel {
         }
         
         return genres.joined(separator: ", ")
+    }
+
+    fileprivate static func getBackdropImages(backdropPath: URL?) {
+        guard let backdropPath = backdropPath else { return }
+        
+        DispatchQueue.global().async {
+            if let imageData = try? Data(contentsOf: backdropPath) {
+                if let image = UIImage(data: imageData) {
+                    ImageCache.sharedInstance.cache.setObject(image, forKey: NSString(string: backdropPath.absoluteString))
+                }
+            }
+        }
     }
 }

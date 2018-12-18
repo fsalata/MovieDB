@@ -34,24 +34,14 @@ class MovieTableViewCell: UITableViewCell {
     }
 
     func configureCell(_ cell: MovieTableViewCell, movie: MovieViewModel) {
-        if let backdropPath = movie.backdropPath,
-            let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.relativeString)) {
-            cell.poster.image = cachedImage
-        }
-        else {
-            cell.poster.image = UIImage(named: "backdropPlaceholder")
-            if let backdropPath = movie.backdropPath {
-                DispatchQueue.global().async {
-                    if let imageData = try? Data(contentsOf: movie.backdropPath!) {
-                        if let image = UIImage(data: imageData) {
-                            ImageCache.sharedInstance.cache.setObject(image, forKey: NSString(string: backdropPath.relativeString))
-                            
-                            DispatchQueue.main.async {
-                                cell.poster.image = image
-                            }
-                        }
-                    }
-                }
+        cell.poster.image = UIImage(named: "backdropPlaceholder")
+        
+        if let backdropPath = movie.backdropPath{
+            if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
+                cell.poster.image = cachedImage
+            }
+            else {
+                cell.poster.load(url: backdropPath)
             }
         }
         
