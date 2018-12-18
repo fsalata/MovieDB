@@ -3,5 +3,5 @@
 ## Special Build Instructions
 none
 
-## Thrid-party Libraries
+## Third-party Libraries
 none
