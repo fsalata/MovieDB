@@ -13,6 +13,7 @@ final class MovieGenresService {
     
     @discardableResult
     func fetchMovieGenres(completion: @escaping (GenresModel?, ServiceError?) -> ()) -> URLSessionDataTask? {
+        
         return client.load(path: "genre/movie/list", method: RequestMethod.get, params: nil) { (result, error) in
             if let error = error {
                 completion(nil, error)
@@ -22,6 +23,7 @@ final class MovieGenresService {
             
             do {
                 let genresList = try JSONDecoder().decode(GenresModel.self, from: result)
+                
                 completion(genresList, nil)
             } catch let error {
                 print(error)

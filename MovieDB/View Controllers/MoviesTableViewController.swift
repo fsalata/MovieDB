@@ -43,8 +43,9 @@ class MoviesTableViewController: UITableViewController {
     }
     
     private func setupView() {
-        tableView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
-        tableView.backgroundView?.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        tableView.backgroundColor = backgroundColor
+        tableView.backgroundView?.backgroundColor = backgroundColor
     
         loadingMore.style = UIActivityIndicatorView.Style.white
         loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
@@ -62,7 +63,6 @@ class MoviesTableViewController: UITableViewController {
         MovieGenresService().fetchMovieGenres { (genresList, error) in
             if let error = error {
                 self.showErrorAlert(error: error)
-                
             } else if let genres = genresList?.genres {
                 self.genres = genres
                 self.fetchMovies(page: self.currentPage)
@@ -77,13 +77,12 @@ class MoviesTableViewController: UITableViewController {
             DispatchQueue.main.async {
                 if let error = error {
                     self.showErrorAlert(error: error)
-                    
                 } else if let moviesList = moviesList,
                     let results = moviesList.results {
                     
                     self.totalPages = moviesList.totalPages
                     
-                    self.movies += results.map{
+                    self.movies += results.map {
                         return MovieViewModel(movie: $0, genres: self.genres)
                     }
                     
@@ -94,7 +93,7 @@ class MoviesTableViewController: UITableViewController {
     }
     
     private func showErrorAlert(error: ServiceError) {
-        let alert = UIAlertController(title: "Erro", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
         
         let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
         
@@ -142,7 +141,7 @@ class MoviesTableViewController: UITableViewController {
             movie = movies[indexPath.row]
         }
         
-        cell.configureCell(cell, movie: movie)
+        cell.configureCell(movie: movie)
 
         return cell
     }

@@ -33,22 +33,22 @@ class MovieTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func configureCell(_ cell: MovieTableViewCell, movie: MovieViewModel) {
-        cell.poster.image = UIImage(named: "backdropPlaceholder")
+    func configureCell(movie: MovieViewModel) {
+        self.poster.image = UIImage(named: "backdropPlaceholder")
         
         if let backdropPath = movie.backdropPath{
             if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
-                cell.poster.image = cachedImage
+                self.poster.image = cachedImage
             }
             else {
-                cell.poster.load(url: backdropPath)
+                self.poster.load(url: backdropPath)
             }
         }
         
-        cell.title.text = movie.title
+        self.title.text = movie.title
         
-        cell.genres.text = movie.genres
+        self.genres.text = movie.genres
     
-        cell.releaseDate.text =  movie.releaseDate
+        self.releaseDate.text =  movie.releaseDate
     }
 }

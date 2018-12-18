@@ -8,8 +8,6 @@
 
 import Foundation
 
-typealias JSON = [String: Any]
-
 enum ServiceError: Error {
     case noInternetConnection
     case custom(String)

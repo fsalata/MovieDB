@@ -46,7 +46,7 @@ struct MovieViewModel {
     }
     
    fileprivate static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String? {
-    guard let genresIDS = genresIDS else { return nil }
+        guard let genresIDS = genresIDS else { return nil }
     
         let genres = genresIDS.compactMap{ id in
             return genres.first(where: { $0.id == id })?.name ?? nil

@@ -99,13 +99,13 @@
 		E467A5EC21B326C7000521B7 /* MovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				E4949C8B21C44AC700BF1B5D /* Constants */,
 				E49BE9EF21B4934400050C85 /* API */,
 				E4A1C6B521BFCAC900681B80 /* Models */,
 				E401756021C8556600072A99 /* View Models */,
 				E4DB3AD821C0109D0041E843 /* View Controllers */,
 				E49A77DA21BD32F00057EE29 /* Views */,
 				E467A60221B32B07000521B7 /* utils */,
+				E4949C8B21C44AC700BF1B5D /* Constants */,
 				E467A5ED21B326C7000521B7 /* AppDelegate.swift */,
 				E467A5F121B326C7000521B7 /* Main.storyboard */,
 				E467A5F421B326C8000521B7 /* Assets.xcassets */,
@@ -455,10 +455,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb.MovieDB;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -473,10 +473,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb.MovieDB;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

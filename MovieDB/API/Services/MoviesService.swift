@@ -29,6 +29,7 @@ final class MoviesService {
             
             do {
                 let moviesList = try JSONDecoder().decode(MoviesModel.self, from: result)
+                
                 completion(moviesList, error)
             } catch let error {
                 print(error)

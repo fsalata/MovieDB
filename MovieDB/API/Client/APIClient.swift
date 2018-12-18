@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias JSON = [String: Any]
+
 enum RequestMethod: String {
     case get = "GET"
     case post = "POST"
