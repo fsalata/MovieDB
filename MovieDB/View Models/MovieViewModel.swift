@@ -30,8 +30,6 @@ struct MovieViewModel {
         self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres) ?? ""
         
         self.overview = movie.overview ?? ""
-        
-//        MovieViewModel.getBackdropImages(backdropPath: self.backdropPath)
     }
     
     fileprivate static func formatDateFrom(string dateString: String?) -> String? {
