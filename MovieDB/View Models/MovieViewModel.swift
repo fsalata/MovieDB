@@ -23,7 +23,7 @@ struct MovieViewModel {
         
         self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate) ?? ""
         
-        self.backdropPath = movie.backdropPath != nil ? URL(string: Domains.backdropURL + movie.backdropPath!) : nil
+        self.backdropPath = MovieViewModel.getBackdropImages(backdropPath: movie.backdropPath)
         
         self.posterPath = movie.posterPath != nil ? URL(string: Domains.posterURL + movie.posterPath!) : nil
         
@@ -31,7 +31,7 @@ struct MovieViewModel {
         
         self.overview = movie.overview ?? ""
         
-        MovieViewModel.getBackdropImages(backdropPath: self.backdropPath)
+//        MovieViewModel.getBackdropImages(backdropPath: self.backdropPath)
     }
     
     fileprivate static func formatDateFrom(string dateString: String?) -> String? {
@@ -57,15 +57,17 @@ struct MovieViewModel {
         return genres.joined(separator: ", ")
     }
 
-    fileprivate static func getBackdropImages(backdropPath: URL?) {
-        guard let backdropPath = backdropPath else { return }
+    fileprivate static func getBackdropImages(backdropPath: String?) -> URL? {
+        guard let backdropPath = backdropPath, let backdropURL = URL(string: Domains.backdropURL + backdropPath)  else { return nil }
         
         DispatchQueue.global().async {
-            if let imageData = try? Data(contentsOf: backdropPath) {
+            if let imageData = try? Data(contentsOf: backdropURL) {
                 if let image = UIImage(data: imageData) {
-                    ImageCache.sharedInstance.cache.setObject(image, forKey: NSString(string: backdropPath.absoluteString))
+                    ImageCache.sharedInstance.cache.setObject(image, forKey: NSString(string: backdropURL.absoluteString))
                 }
             }
         }
+        
+        return backdropURL
     }
 }
