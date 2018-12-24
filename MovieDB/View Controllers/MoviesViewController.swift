@@ -8,7 +8,8 @@
 
 import UIKit
 
-class MoviesTableViewController: UITableViewController {
+class MoviesViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
     
     var movies = [MovieViewModel]()
     var genres = [Genre]()
@@ -33,7 +34,9 @@ class MoviesTableViewController: UITableViewController {
             }
         }
     }
-
+    
+    let cellID = "MovieCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,14 +46,16 @@ class MoviesTableViewController: UITableViewController {
     }
     
     private func setupView() {
+        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: cellID)
+        
         let backgroundColor = UIColor(r: 42, g: 42, b: 42)
         tableView.backgroundColor = backgroundColor
         tableView.backgroundView?.backgroundColor = backgroundColor
-    
+        
         loadingMore.style = UIActivityIndicatorView.Style.white
         loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
         tableView.tableFooterView = self.loadingMore
-    
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
@@ -73,7 +78,7 @@ class MoviesTableViewController: UITableViewController {
     private func fetchMovies(page: Int) {
         MoviesService().fetchUpcomingMovies(page: page) { moviesList, error in
             self.isLoading = false
-        
+            
             DispatchQueue.main.async {
                 if let error = error {
                     self.showErrorAlert(error: error)
@@ -105,7 +110,7 @@ class MoviesTableViewController: UITableViewController {
         alert.addAction(cancel)
         alert.addAction(confirm)
         
-         self.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func searchBarIsEmpty() -> Bool {
@@ -115,22 +120,55 @@ class MoviesTableViewController: UITableViewController {
     private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
+    
+    // MARK: Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "movieDetails" {
+            if let destinationViewController = segue.destination as? MovieDetailsViewController {
+                
+                var movie: MovieViewModel
+                
+                if isFiltering() {
+                    movie = filteredMovies[tableView.indexPathForSelectedRow!.row]
+                }
+                else {
+                    movie = movies[tableView.indexPathForSelectedRow!.row]
+                }
+                
+                destinationViewController.movie = movie
+            }
+        }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { context in
+            if UIApplication.shared.statusBarOrientation.isLandscape {
+                self.tableView.estimatedRowHeight = 305.0
+            } else {
+                self.tableView.estimatedRowHeight = 213.0
+            }
+        })
+        
+        tableView.reloadData()
+    }
+}
 
-    // MARK: - Table view data source
-    override func numberOfSections(in tableView: UITableView) -> Int {
+// MARK: - Table view data source
+extension MoviesViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredMovies.count
         }
         
         return movies.count
     }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MovieTableViewCell
         
         var movie: MovieViewModel
         
@@ -142,11 +180,13 @@ class MoviesTableViewController: UITableViewController {
         }
         
         cell.movie = movie
-
+        
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+}
+
+extension MoviesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let totalPages = self.totalPages, !isLoading else { return }
         
         if indexPath.row == movies.count - 5 && currentPage <= totalPages {
@@ -161,40 +201,13 @@ class MoviesTableViewController: UITableViewController {
         }
     }
     
-    // MARK: Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "movieDetails" {
-            if let destinationViewController = segue.destination as? MovieDetailsViewController {
-                
-                var movie: MovieViewModel
-                
-                if isFiltering() {
-                    movie = filteredMovies[tableView.indexPathForSelectedRow!.row]
-                }
-                else {
-                    movie = movies[tableView.indexPathForSelectedRow!.row] 
-                }
-                
-                destinationViewController.movie = movie
-            }
-        }
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { context in
-            if UIApplication.shared.statusBarOrientation.isLandscape {
-                self.tableView.estimatedRowHeight = 305.0
-            } else {
-               self.tableView.estimatedRowHeight = 213.0
-            }
-        })
-        
-        tableView.reloadData()
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "movieDetails", sender: self)
     }
 }
 
 //  MARK: UISearchResultsUpdating
-extension MoviesTableViewController: UISearchResultsUpdating {
+extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         
         filteredMovies = movies.filter({( movie: MovieViewModel) -> Bool in

@@ -9,43 +9,56 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var poster: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var genres: UILabel!
-    @IBOutlet weak var releaseDate: UILabel!
-    @IBOutlet weak var infoView: UIView!
+    var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel! {
         didSet {
-            self.poster.image = UIImage(named: "backdropPlaceholder")
+            movieHeaderView.backdrop.image = UIImage(named: "backdropPlaceholder")
             
             if let backdropPath = movie.backdropPath {
                 if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
-                    self.poster.image = cachedImage
+                    movieHeaderView.backdrop.image = cachedImage
                 }
                 else {
-                    self.poster.load(url: backdropPath)
+                    movieHeaderView.backdrop.load(url: backdropPath)
                 }
             }
             
-            self.title.text = movie.title
+            movieHeaderView.title.text = movie.title
             
-            self.genres.text = movie.genres
+            movieHeaderView.genres.text = movie.genres
             
-            self.releaseDate.text =  movie.releaseDate
+            movieHeaderView.releaseDate.text =  movie.releaseDate
+            
+            if let posterPath = movie.posterPath {
+                movieHeaderView.poster.load(url: posterPath)
+            }
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        infoView.addBlurEffect()
-        containerView.layer.cornerRadius = 5
-        containerView.clipsToBounds = true
+        setupView()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    
+    fileprivate func setupView() {
+        self.selectionStyle = .none
+        
+        movieHeaderView = MovieHeaderView(frame: contentView.frame)
+        movieHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentView.addSubview(movieHeaderView)
+        
+        movieHeaderView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        movieHeaderView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        movieHeaderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        movieHeaderView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        
+        contentView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
