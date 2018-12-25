@@ -36,34 +36,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qLw-SG-2Fb">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bAl-jK-nKs">
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="sectionIndexBackgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="Url-bg-SPy" id="X2I-bL-4CP"/>
-                                    <outlet property="delegate" destination="Url-bg-SPy" id="1l9-85-QPd"/>
-                                </connections>
-                            </tableView>
+                                <color key="backgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ofy-fd-iZo">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="I7t-5f-bjw" firstAttribute="trailing" secondItem="qLw-SG-2Fb" secondAttribute="trailing" id="NmG-da-6YT"/>
-                            <constraint firstItem="I7t-5f-bjw" firstAttribute="bottom" secondItem="qLw-SG-2Fb" secondAttribute="bottom" id="S2n-Hk-j6h"/>
-                            <constraint firstItem="qLw-SG-2Fb" firstAttribute="leading" secondItem="I7t-5f-bjw" secondAttribute="leading" id="xtU-mp-V8f"/>
-                            <constraint firstItem="qLw-SG-2Fb" firstAttribute="top" secondItem="I7t-5f-bjw" secondAttribute="top" id="yrE-Sj-5Yk"/>
+                            <constraint firstItem="bAl-jK-nKs" firstAttribute="trailing" secondItem="I7t-5f-bjw" secondAttribute="trailing" id="Ktm-fg-DsM"/>
+                            <constraint firstItem="bAl-jK-nKs" firstAttribute="leading" secondItem="I7t-5f-bjw" secondAttribute="leading" id="P7B-fp-ZYX"/>
+                            <constraint firstItem="bAl-jK-nKs" firstAttribute="top" secondItem="I7t-5f-bjw" secondAttribute="top" id="hzK-A5-tQe"/>
+                            <constraint firstItem="bAl-jK-nKs" firstAttribute="bottom" secondItem="I7t-5f-bjw" secondAttribute="bottom" id="nZC-a3-xEm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="I7t-5f-bjw"/>
                     </view>
                     <navigationItem key="navigationItem" id="xZK-zL-Kgx"/>
                     <connections>
-                        <outlet property="tableView" destination="qLw-SG-2Fb" id="CpJ-1c-Vmp"/>
+                        <outlet property="collectionView" destination="bAl-jK-nKs" id="rAO-fL-yfH"/>
                         <segue destination="VOF-ax-ZGN" kind="show" identifier="movieDetails" id="dlO-uY-uJA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MdA-Ej-lSY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="-565"/>
+            <point key="canvasLocation" x="888.79999999999995" y="-565.27093596059115"/>
         </scene>
         <!--Movie Details-->
         <scene sceneID="pZ4-7c-WYF">
@@ -77,10 +79,10 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QNB-O4-k7a">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="336.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="690"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bj9-U9-VYX" customClass="MovieHeaderView" customModule="MovieDB" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="264"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="617.66666666666663"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
@@ -89,7 +91,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9hQ-Nx-czh" userLabel="Overview">
-                                                <rect key="frame" x="0.0" y="264" width="375" height="72.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="617.66666666666663" width="375" height="72.333333333333371"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bV7-mZ-LmJ">
                                                         <rect key="frame" x="15" y="15" width="345" height="19"/>

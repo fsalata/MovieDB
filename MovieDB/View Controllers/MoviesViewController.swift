@@ -9,7 +9,7 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var movies = [MovieViewModel]()
     var genres = [Genre]()
@@ -46,21 +46,31 @@ class MoviesViewController: UIViewController {
     }
     
     private func setupView() {
-        tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: cellID)
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
-        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
-        tableView.backgroundColor = backgroundColor
-        tableView.backgroundView?.backgroundColor = backgroundColor
+        let layout = UICollectionViewFlowLayout()
+        layout.estimatedItemSize = CGSize(width: view.bounds.width - 20.0, height: 280)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        self.collectionView.collectionViewLayout = layout
         
-        loadingMore.style = UIActivityIndicatorView.Style.white
-        loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
-        tableView.tableFooterView = self.loadingMore
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Movies"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+
+//        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
+//        tableView.backgroundColor = backgroundColor
+//        tableView.backgroundView?.backgroundColor = backgroundColor
+//
+//        loadingMore.style = UIActivityIndicatorView.Style.white
+//        loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
+//        tableView.tableFooterView = self.loadingMore
+//
+//        searchController.searchResultsUpdater = self
+//        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Search Movies"
+//        navigationItem.searchController = searchController
+//        definesPresentationContext = true
     }
     
     // MARK: Private methods
@@ -91,7 +101,7 @@ class MoviesViewController: UIViewController {
                         return MovieViewModel(movie: $0, genres: self.genres)
                     }
                     
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 }
             }
         }
@@ -122,44 +132,40 @@ class MoviesViewController: UIViewController {
     }
     
     // MARK: Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "movieDetails" {
-            if let destinationViewController = segue.destination as? MovieDetailsViewController {
-                
-                var movie: MovieViewModel
-                
-                if isFiltering() {
-                    movie = filteredMovies[tableView.indexPathForSelectedRow!.row]
-                }
-                else {
-                    movie = movies[tableView.indexPathForSelectedRow!.row]
-                }
-                
-                destinationViewController.movie = movie
-            }
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "movieDetails" {
+//            if let destinationViewController = segue.destination as? MovieDetailsViewController {
+//
+//                var movie: MovieViewModel
+//
+//                if isFiltering() {
+//                    movie = filteredMovies[collectionView.indexPathForSelectedRow!.row]
+//                }
+//                else {
+//                    movie = movies[collectionView.indexPathForSelectedRow!.row]
+//                }
+//
+//                destinationViewController.movie = movie
+//            }
+//        }
+//    }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        coordinator.animate(alongsideTransition: { context in
-            if UIApplication.shared.statusBarOrientation.isLandscape {
-                self.tableView.estimatedRowHeight = 305.0
-            } else {
-                self.tableView.estimatedRowHeight = 213.0
-            }
-        })
-        
-        tableView.reloadData()
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        coordinator.animate(alongsideTransition: { context in
+//            if UIApplication.shared.statusBarOrientation.isLandscape {
+//                self.tableView.estimatedRowHeight = 305.0
+//            } else {
+//                self.tableView.estimatedRowHeight = 213.0
+//            }
+//        })
+//
+//        tableView.reloadData()
+//    }
 }
 
-// MARK: - Table view data source
-extension MoviesViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//  MARK: UICollectionView data source
+extension MoviesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredMovies.count
         }
@@ -167,8 +173,8 @@ extension MoviesViewController: UITableViewDataSource {
         return movies.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MovieTableViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! MovieCollectionViewCell
         
         var movie: MovieViewModel
         
@@ -183,37 +189,22 @@ extension MoviesViewController: UITableViewDataSource {
         
         return cell
     }
+    
 }
 
-extension MoviesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let totalPages = self.totalPages, !isLoading else { return }
-        
-        if indexPath.row == movies.count - 5 && currentPage <= totalPages {
-            isLoading = true
-            currentPage = currentPage + 1
-            
-            fetchMovies(page: currentPage)
-            
-            if currentPage == totalPages {
-                tableView.tableFooterView = UIView(frame: CGRect.zero)
-            }
-        }
-    }
+//  MARK: UICollectionView delegate
+extension MoviesViewController: UICollectionViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "movieDetails", sender: self)
-    }
 }
 
 //  MARK: UISearchResultsUpdating
 extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
+
         filteredMovies = movies.filter({( movie: MovieViewModel) -> Bool in
             return movie.title.lowercased().contains(searchController.searchBar.text!.lowercased())
         })
-        
-        tableView.reloadData()
+
+        collectionView.reloadData()
     }
 }

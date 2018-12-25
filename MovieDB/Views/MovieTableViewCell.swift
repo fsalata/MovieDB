@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MovieCollectionViewCell: UICollectionViewCell {
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel! {
@@ -36,24 +36,20 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setupView()
     }
     
     fileprivate func setupView() {
-        self.selectionStyle = .none
-        
         movieHeaderView = MovieHeaderView(frame: contentView.frame)
-        movieHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        
         contentView.addSubview(movieHeaderView)
         
-        movieHeaderView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
-        movieHeaderView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10).isActive = true
+        movieHeaderView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        movieHeaderView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         movieHeaderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        movieHeaderView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10).isActive = true
+        movieHeaderView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         
         contentView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
     }
