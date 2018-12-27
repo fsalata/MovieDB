@@ -82,15 +82,21 @@ final class MovieHeaderView: UIView {
     }
     
     fileprivate func setupLayout() {
-        backdrop.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: movieInfo.topAnchor, right: self.rightAnchor, padding: .zero, size: CGSize(width: self.bounds.width, height: self.bounds.width / (16/9)))
+        backdrop.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: movieInfo.topAnchor, right: self.rightAnchor, padding: .zero, size: CGSize(width: 0, height: self.bounds.width / (16/9)))
         
         movieInfo.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor)
         
         title.anchor(top: movieInfo.topAnchor, left: poster.rightAnchor, bottom: releaseDate.topAnchor, right: movieInfo.rightAnchor, padding: .init(top: 8.0, left: 15.0, bottom: -3.0, right: -15.0))
+        title.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         releaseDate.anchor(top: nil, left: poster.rightAnchor, bottom: genres.topAnchor, right: movieInfo.rightAnchor, padding: .init(top: 3.0, left: 15.0, bottom: -3.0, right: -15.0))
+        releaseDate.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        releaseDate.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         genres.anchor(top: nil, left: poster.rightAnchor, bottom:  movieInfo.bottomAnchor, right: movieInfo.rightAnchor, padding: .init(top: 3.0, left: 15.0, bottom: -8, right: -15.0))
+        genres.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        genres.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         poster.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, padding: .init(top: -60.0, left: 15.0, bottom: 0, right: 0), size: .init(width: 80.0, height: 120.0))
         
@@ -100,15 +106,7 @@ final class MovieHeaderView: UIView {
         super.init(coder: aDecoder)
     }
     
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
-    }
-    
-    override func prepareForInterfaceBuilder() {
-        setupView()
-    }
-    
-    override func awakeFromNib() {
-        setupView()
+    override var intrinsicContentSize: CGSize {
+        return self.frame.size
     }
 }

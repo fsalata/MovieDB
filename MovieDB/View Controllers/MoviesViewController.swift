@@ -9,7 +9,7 @@
 import UIKit
 
 final class MoviesViewController: UIViewController {
-    var collectionView: UICollectionView!
+    var tableView: UITableView!
     
     var movies = [MovieViewModel]()
     var genres = [Genre]()
@@ -35,8 +35,6 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    let cellID = "MovieCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,47 +45,46 @@ final class MoviesViewController: UIViewController {
         fetchMoviesGenres()
     }
     
-    fileprivate func setupView() {
+    // MARK: Private methods
+    
+    private func setupView() {
         title = "Upcoming movies"
         
-        let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: view.bounds.width - 20.0, height: 250)
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tableView = UITableView(frame: self.view.frame)
         
-        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
         
-        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        tableView.backgroundColor = backgroundColor
+        tableView.backgroundView?.backgroundColor = backgroundColor
         
-        collectionView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        tableView.separatorStyle = .none
         
-        self.view.addSubview(collectionView)
-
-//        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
-//        tableView.backgroundColor = backgroundColor
-//        tableView.backgroundView?.backgroundColor = backgroundColor
-//
-//        loadingMore.style = UIActivityIndicatorView.Style.white
-//        loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
-//        tableView.tableFooterView = self.loadingMore
-//
-//        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.searchBar.placeholder = "Search Movies"
-//        navigationItem.searchController = searchController
-//        definesPresentationContext = true
+        tableView.estimatedRowHeight = 280.0
+        
+        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        loadingMore.style = UIActivityIndicatorView.Style.white
+        loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
+        tableView.tableFooterView = self.loadingMore
+        
+        self.view.addSubview(tableView)
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Movies"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
-    // MARK: Private methods
     fileprivate func setupLayout() {
-        collectionView.pinEdgesToSuperview()
+        tableView.pinEdgesToSuperview()
     }
     
-    fileprivate func fetchMoviesGenres() {
+    private func fetchMoviesGenres () {
         MovieGenresService().fetchMovieGenres { (genresList, error) in
             if let error = error {
                 self.showErrorAlert(error: error)
@@ -98,7 +95,7 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    fileprivate func fetchMovies(page: Int) {
+    private func fetchMovies(page: Int) {
         MoviesService().fetchUpcomingMovies(page: page) { moviesList, error in
             self.isLoading = false
             
@@ -114,13 +111,13 @@ final class MoviesViewController: UIViewController {
                         return MovieViewModel(movie: $0, genres: self.genres)
                     }
                     
-                    self.collectionView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
         }
     }
     
-    fileprivate func showErrorAlert(error: ServiceError) {
+    private func showErrorAlert(error: ServiceError) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
         
         let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
@@ -136,18 +133,26 @@ final class MoviesViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    fileprivate func searchBarIsEmpty() -> Bool {
+    private func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    fileprivate func isFiltering() -> Bool {
+    private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
+    
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        self.tableView.frame = self.view.frame
+//        tableView.layoutIfNeeded()
+//    }
 }
 
-//  MARK: UICollectionView data source
-extension MoviesViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension MoviesViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredMovies.count
         }
@@ -155,8 +160,8 @@ extension MoviesViewController: UICollectionViewDataSource {
         return movies.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! MovieCollectionViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
         var movie: MovieViewModel
         
@@ -171,27 +176,42 @@ extension MoviesViewController: UICollectionViewDataSource {
         
         return cell
     }
-    
 }
 
-//  MARK: UICollectionView delegate
-extension MoviesViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+extension MoviesViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieDetailsViewController = MovieDetailsViewController()
         movieDetailsViewController.movie = movies[indexPath.row]
         
-        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        guard let navigationController = self.navigationController else { return }
+        
+        navigationController.pushViewController(movieDetailsViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let totalPages = self.totalPages, !isLoading else { return }
+        
+        if indexPath.row == movies.count - 5 && currentPage <= totalPages {
+            isLoading = true
+            currentPage = currentPage + 1
+            
+            fetchMovies(page: currentPage)
+            
+            if currentPage == totalPages {
+                tableView.tableFooterView = UIView(frame: CGRect.zero)
+            }
+        }
     }
 }
 
 //  MARK: UISearchResultsUpdating
 extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-
+        
         filteredMovies = movies.filter({( movie: MovieViewModel) -> Bool in
             return movie.title.lowercased().contains(searchController.searchBar.text!.lowercased())
         })
-
-        collectionView.reloadData()
+        
+        tableView.reloadData()
     }
 }

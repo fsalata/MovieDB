@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class MovieCollectionViewCell: UICollectionViewCell {
+final class MovieCell: UITableViewCell {
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel! {
@@ -34,8 +34,8 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupView()
         
@@ -43,18 +43,21 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate func setupView() {
+        self.selectionStyle = .none
+        self.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        
+        contentView.backgroundColor = UIColor.clear
+        
         movieHeaderView = MovieHeaderView(frame: contentView.frame)
         
         contentView.addSubview(movieHeaderView)
     
-        contentView.layer.cornerRadius = 10.0
-        contentView.clipsToBounds = true
-        
-        contentView.backgroundColor = UIColor.clear
+        movieHeaderView.layer.cornerRadius = 10.0
+        movieHeaderView.clipsToBounds = true
     }
     
     fileprivate func setupLayout() {
-        movieHeaderView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor)
+        movieHeaderView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, padding: .init(top: 10.0, left: 10.0, bottom: 0.0, right: -10.0))
     }
     
     override func prepareForReuse() {

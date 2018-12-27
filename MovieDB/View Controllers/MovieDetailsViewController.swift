@@ -42,7 +42,7 @@ class MovieDetailsViewController: UIViewController {
         
         self.scrollView.addSubview(stackView)
 
-        movieHeaderView = MovieHeaderView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: 280.0))
+        movieHeaderView = MovieHeaderView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
 
         self.stackView.addArrangedSubview(movieHeaderView)
         
@@ -54,6 +54,7 @@ class MovieDetailsViewController: UIViewController {
         scrollView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         
         stackView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
+        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         let overviewContainer = UIView()
         overviewContainer.translatesAutoresizingMaskIntoConstraints = false
