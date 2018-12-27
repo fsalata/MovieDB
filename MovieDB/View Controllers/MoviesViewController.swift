@@ -47,7 +47,7 @@ final class MoviesViewController: UIViewController {
         fetchMoviesGenres()
     }
     
-    private func setupView() {
+    fileprivate func setupView() {
         title = "Upcoming movies"
         
         let layout = UICollectionViewFlowLayout()
@@ -83,11 +83,11 @@ final class MoviesViewController: UIViewController {
     }
     
     // MARK: Private methods
-    private func setupLayout() {
+    fileprivate func setupLayout() {
         collectionView.pinEdgesToSuperview()
     }
     
-    private func fetchMoviesGenres() {
+    fileprivate func fetchMoviesGenres() {
         MovieGenresService().fetchMovieGenres { (genresList, error) in
             if let error = error {
                 self.showErrorAlert(error: error)
@@ -98,7 +98,7 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    private func fetchMovies(page: Int) {
+    fileprivate func fetchMovies(page: Int) {
         MoviesService().fetchUpcomingMovies(page: page) { moviesList, error in
             self.isLoading = false
             
@@ -120,7 +120,7 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    private func showErrorAlert(error: ServiceError) {
+    fileprivate func showErrorAlert(error: ServiceError) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
         
         let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
@@ -136,46 +136,13 @@ final class MoviesViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func searchBarIsEmpty() -> Bool {
+    fileprivate func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    private func isFiltering() -> Bool {
+    fileprivate func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
-    
-    // MARK: Segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "movieDetails" {
-            if let destinationViewController = segue.destination as? MovieDetailsViewController {
-
-                var movie: MovieViewModel
-                
-                guard let indexPath = collectionView.indexPathsForSelectedItems?.first else { return }
-
-                if isFiltering() {
-                    movie = filteredMovies[indexPath.row]
-                }
-                else {
-                    movie = movies[indexPath.row]
-                }
-
-                destinationViewController.movie = movie
-            }
-        }
-    }
-    
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        coordinator.animate(alongsideTransition: { context in
-//            if UIApplication.shared.statusBarOrientation.isLandscape {
-//                self.tableView.estimatedRowHeight = 305.0
-//            } else {
-//                self.tableView.estimatedRowHeight = 213.0
-//            }
-//        })
-//
-//        tableView.reloadData()
-//    }
 }
 
 //  MARK: UICollectionView data source
