@@ -48,6 +48,8 @@ final class MoviesViewController: UIViewController {
     }
     
     private func setupView() {
+        title = "Upcoming movies"
+        
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: view.bounds.width - 20.0, height: 250)
         layout.scrollDirection = .vertical

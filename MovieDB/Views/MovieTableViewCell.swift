@@ -47,6 +47,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(movieHeaderView)
     
+        contentView.layer.cornerRadius = 10.0
+        contentView.clipsToBounds = true
+        
         contentView.backgroundColor = UIColor.clear
     }
     
@@ -58,12 +61,6 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         let imagePlaceholder = UIImage(named: "backdropPlaceholder")
         
         movieHeaderView.backdrop.image = imagePlaceholder
-        
-        movieHeaderView.title.text = ""
-        
-        movieHeaderView.genres.text = ""
-        
-        movieHeaderView.releaseDate.text =  ""
         
         movieHeaderView.poster.image = imagePlaceholder
     }

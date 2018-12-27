@@ -8,10 +8,7 @@
 
 import UIKit
 
-@IBDesignable
 final class MovieHeaderView: UIView {
-    @IBInspectable
-    var borderRadius: CGFloat = 10.0
     
     lazy var backdrop: UIImageView! = {
         let imageView = UIImageView(image: UIImage(named: "backdropPlaceholder"))
@@ -56,7 +53,7 @@ final class MovieHeaderView: UIView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Thin", size: 12.0)
         label.textColor = .white
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
     }()
@@ -81,7 +78,6 @@ final class MovieHeaderView: UIView {
         movieInfo.addSubview(releaseDate)
         movieInfo.addSubview(genres)
         
-        self.layer.cornerRadius = borderRadius
         self.clipsToBounds = true
     }
     
@@ -102,10 +98,6 @@ final class MovieHeaderView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        return self.frame.size
     }
     
     override class var requiresConstraintBasedLayout: Bool {
