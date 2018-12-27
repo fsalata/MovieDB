@@ -35,8 +35,6 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    fileprivate var selectedCell: UITableViewCell?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -142,6 +140,11 @@ final class MoviesViewController: UIViewController {
     private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
+    
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        self.tableView.frame = self.view.frame
+//        tableView.layoutIfNeeded()
+//    }
 }
 
 extension MoviesViewController: UITableViewDataSource {
@@ -177,8 +180,6 @@ extension MoviesViewController: UITableViewDataSource {
 
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedCell = tableView.cellForRow(at: indexPath)
-        
         let movieDetailsViewController = MovieDetailsViewController()
         movieDetailsViewController.movie = movies[indexPath.row]
         
@@ -212,15 +213,5 @@ extension MoviesViewController: UISearchResultsUpdating {
         })
         
         tableView.reloadData()
-    }
-}
-
-extension MoviesViewController: Animatable {
-    var containerView: UIView? {
-        return tableView
-    }
-    
-    var childView: UIView? {
-        return selectedCell
     }
 }

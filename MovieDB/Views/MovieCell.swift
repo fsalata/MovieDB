@@ -47,21 +47,17 @@ final class MovieCell: UITableViewCell {
         self.backgroundColor = UIColor(r: 42, g: 42, b: 42)
         
         contentView.backgroundColor = UIColor.clear
+        
+        movieHeaderView = MovieHeaderView(frame: contentView.frame)
+        
+        contentView.addSubview(movieHeaderView)
+    
+        movieHeaderView.layer.cornerRadius = 10.0
+        movieHeaderView.clipsToBounds = true
     }
     
     fileprivate func setupLayout() {
-        let shadowView = ShadowView(frame: contentView.frame)
-        contentView.addSubview(shadowView)
-        
-        shadowView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, padding: .init(top: 20.0, left: 10.0, bottom: 0.0, right: -10.0))
-        
-        movieHeaderView = MovieHeaderView(frame: shadowView.frame)
-        shadowView.addSubview(movieHeaderView)
-        
-        movieHeaderView.pinEdgesToSuperview()
-        
-        movieHeaderView.layer.cornerRadius = 10.0
-        movieHeaderView.clipsToBounds = true
+        movieHeaderView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, padding: .init(top: 10.0, left: 10.0, bottom: 0.0, right: -10.0))
     }
     
     override func prepareForReuse() {

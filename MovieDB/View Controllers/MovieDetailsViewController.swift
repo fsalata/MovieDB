@@ -25,10 +25,6 @@ class MovieDetailsViewController: UIViewController {
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel!
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,35 +38,23 @@ class MovieDetailsViewController: UIViewController {
     private func setupView() {
         title = "Movie details"
         
-        self.navigationController?.isNavigationBarHidden = true
-        
         self.view.addSubview(scrollView)
         
         self.scrollView.addSubview(stackView)
 
         movieHeaderView = MovieHeaderView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
+
+        self.stackView.addArrangedSubview(movieHeaderView)
         
         fillMovieData()
     }
     
     fileprivate func setupLayout() {
-        scrollView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor)
+        scrollView.anchor(top: self.view.layoutMarginsGuide.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor)
         scrollView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         
-        stackView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor, padding: .init(top: self.view.safeAreaInsets.top, left: 0, bottom: 0, right: 0))
+        stackView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        
-        self.scrollView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
-        
-        let closeButton = UIButton(frame: .init(x: 0.0, y: 0.0, width: 80, height: 80))
-        closeButton.backgroundColor = .black
-        closeButton.titleLabel?.textColor = .white
-        closeButton.setTitle("X", for: .normal)
-        closeButton.addTarget(self, action: #selector(handleClose(_:)), for: .touchUpInside)
-        
-        stackView.addArrangedSubview(closeButton)
-        
-        self.stackView.addArrangedSubview(movieHeaderView)
         
         let overviewContainer = UIView()
         overviewContainer.translatesAutoresizingMaskIntoConstraints = false
@@ -120,49 +104,5 @@ class MovieDetailsViewController: UIViewController {
         movieHeaderView.releaseDate.text = movie.releaseDate
         
         movieHeaderView.genres.text = movie.genres
-    }
-    
-    @objc func handleClose(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    fileprivate func asCard(_ value: Bool) {
-        if value {
-            self.view.layer.cornerRadius = 10
-        } else {
-            self.view.layer.cornerRadius = 0
-        }
-    }
-}
-
-extension MovieDetailsViewController: Animatable {
-    var containerView: UIView? {
-        return self.view
-    }
-    
-    var childView: UIView? {
-        return self.scrollView
-    }
-    
-    func presentingView(
-        sizeAnimator: UIViewPropertyAnimator,
-        positionAnimator: UIViewPropertyAnimator,
-        fromFrame: CGRect,
-        toFrame: CGRect
-        ) {
-        
-        // Make the view look like a card
-        self.asCard(true)
-        
-        // Redraw the view to update the previous changes
-        self.view.layoutIfNeeded()
-        sizeAnimator.addAnimations {
-            self.view.layoutIfNeeded()
-        }
-        
-        // Animate the view to not look like a card
-        positionAnimator.addAnimations {
-            self.asCard(false)
-        }
     }
 }

@@ -32,8 +32,6 @@
 		E4A8D19E21B6B66E00328F38 /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A8D19D21B6B66E00328F38 /* MoviesService.swift */; };
 		E4CF34BD21D4E56100413BB0 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CF34BC21D4E56100413BB0 /* NavigationController.swift */; };
 		E4CF34BF21D4E74A00413BB0 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CF34BE21D4E74A00413BB0 /* UIView+Constraints.swift */; };
-		E4CF34C121D56C9A00413BB0 /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CF34C021D56C9A00413BB0 /* ShadowView.swift */; };
-		E4CF34C321D571DF00413BB0 /* CardTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CF34C221D571DF00413BB0 /* CardTransitionAnimation.swift */; };
 		E4F6FD7B21C1B8EE00CEE8D1 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F6FD7A21C1B8EE00CEE8D1 /* MovieCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,8 +63,6 @@
 		E4A8D19D21B6B66E00328F38 /* MoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesService.swift; sourceTree = "<group>"; };
 		E4CF34BC21D4E56100413BB0 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		E4CF34BE21D4E74A00413BB0 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
-		E4CF34C021D56C9A00413BB0 /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
-		E4CF34C221D571DF00413BB0 /* CardTransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTransitionAnimation.swift; sourceTree = "<group>"; };
 		E4F6FD7A21C1B8EE00CEE8D1 /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,7 +131,6 @@
 				E437F6C921C2A5AA00B8744C /* UIImageExtension.swift */,
 				E4949C9221C5329200BF1B5D /* ImageCache.swift */,
 				E4CF34BC21D4E56100413BB0 /* NavigationController.swift */,
-				E4CF34C221D571DF00413BB0 /* CardTransitionAnimation.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -153,7 +148,6 @@
 			children = (
 				E4F6FD7A21C1B8EE00CEE8D1 /* MovieCell.swift */,
 				E4771FB521D14290008402E9 /* MovieHeaderView.swift */,
-				E4CF34C021D56C9A00413BB0 /* ShadowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -312,8 +306,6 @@
 				E49BE9F121B4936100050C85 /* APIClient.swift in Sources */,
 				E437F6CA21C2A5AA00B8744C /* UIImageExtension.swift in Sources */,
 				E401756221C8557C00072A99 /* MovieViewModel.swift in Sources */,
-				E4CF34C321D571DF00413BB0 /* CardTransitionAnimation.swift in Sources */,
-				E4CF34C121D56C9A00413BB0 /* ShadowView.swift in Sources */,
 				E499C7D321C124160072109E /* UIViewExtension.swift in Sources */,
 				E4A8D19B21B6B4DD00328F38 /* URLRequestExtension.swift in Sources */,
 				E4949C9321C5329200BF1B5D /* ImageCache.swift in Sources */,
