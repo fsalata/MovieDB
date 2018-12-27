@@ -9,7 +9,7 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
+    var collectionView: UICollectionView!
     
     var movies = [MovieViewModel]()
     var genres = [Genre]()
@@ -46,17 +46,22 @@ class MoviesViewController: UIViewController {
     }
     
     private func setupView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: view.bounds.width - 20.0, height: 280)
+        layout.estimatedItemSize = CGSize(width: view.bounds.width - 20.0, height: 250)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.collectionView.collectionViewLayout = layout
+        
+        collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        
+        self.view.addSubview(collectionView)
+        
+        setupLayout()
 
 //        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
 //        tableView.backgroundColor = backgroundColor
@@ -74,7 +79,11 @@ class MoviesViewController: UIViewController {
     }
     
     // MARK: Private methods
-    private func fetchMoviesGenres () {
+    private func setupLayout() {
+        collectionView.pinEdgesToSuperview()
+    }
+    
+    private func fetchMoviesGenres() {
         MovieGenresService().fetchMovieGenres { (genresList, error) in
             if let error = error {
                 self.showErrorAlert(error: error)
@@ -132,23 +141,25 @@ class MoviesViewController: UIViewController {
     }
     
     // MARK: Segue
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "movieDetails" {
-//            if let destinationViewController = segue.destination as? MovieDetailsViewController {
-//
-//                var movie: MovieViewModel
-//
-//                if isFiltering() {
-//                    movie = filteredMovies[collectionView.indexPathForSelectedRow!.row]
-//                }
-//                else {
-//                    movie = movies[collectionView.indexPathForSelectedRow!.row]
-//                }
-//
-//                destinationViewController.movie = movie
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "movieDetails" {
+            if let destinationViewController = segue.destination as? MovieDetailsViewController {
+
+                var movie: MovieViewModel
+                
+                guard let indexPath = collectionView.indexPathsForSelectedItems?.first else { return }
+
+                if isFiltering() {
+                    movie = filteredMovies[indexPath.row]
+                }
+                else {
+                    movie = movies[indexPath.row]
+                }
+
+                destinationViewController.movie = movie
+            }
+        }
+    }
     
 //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 //        coordinator.animate(alongsideTransition: { context in
@@ -194,7 +205,12 @@ extension MoviesViewController: UICollectionViewDataSource {
 
 //  MARK: UICollectionView delegate
 extension MoviesViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movieDetailsViewController = MovieDetailsViewController()
+        movieDetailsViewController.movie = movies[indexPath.row]
+        
+        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+    }
 }
 
 //  MARK: UISearchResultsUpdating

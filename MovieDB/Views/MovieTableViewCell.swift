@@ -13,8 +13,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     var movie: MovieViewModel! {
         didSet {
-            movieHeaderView.backdrop.image = UIImage(named: "backdropPlaceholder")
-            
             if let backdropPath = movie.backdropPath {
                 if let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.absoluteString)) {
                     movieHeaderView.backdrop.image = cachedImage
@@ -44,6 +42,8 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     fileprivate func setupView() {
         movieHeaderView = MovieHeaderView(frame: contentView.frame)
+        movieHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(movieHeaderView)
         
         movieHeaderView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
@@ -52,6 +52,20 @@ class MovieCollectionViewCell: UICollectionViewCell {
         movieHeaderView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         
         contentView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+    }
+    
+    override func prepareForReuse() {
+        let imagePlaceholder = UIImage(named: "backdropPlaceholder")
+        
+        movieHeaderView.backdrop.image = imagePlaceholder
+        
+        movieHeaderView.title.text = ""
+        
+        movieHeaderView.genres.text = ""
+        
+        movieHeaderView.releaseDate.text =  ""
+        
+        movieHeaderView.poster.image = imagePlaceholder
     }
     
     required init?(coder aDecoder: NSCoder) {

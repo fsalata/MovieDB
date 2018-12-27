@@ -96,6 +96,7 @@ final class MovieHeaderView: UIView {
         backdrop.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
         backdrop.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
         backdrop.bottomAnchor.constraint(equalTo: movieInfo.topAnchor, constant: 0).isActive = true
+        backdrop.widthAnchor.constraint(equalToConstant: self.bounds.width).isActive = true
         backdrop.heightAnchor.constraint(equalToConstant: self.bounds.width / (16/9)).isActive = true
         
         movieInfo.topAnchor.constraint(equalTo: backdrop.bottomAnchor).isActive = true
@@ -107,20 +108,20 @@ final class MovieHeaderView: UIView {
         title.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
         title.bottomAnchor.constraint(equalTo: releaseDate.topAnchor, constant: -3.0).isActive = true
         title.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-        title.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        title.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         releaseDate.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
         releaseDate.bottomAnchor.constraint(equalTo: genres.topAnchor, constant: -3.0).isActive = true
         releaseDate.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-        releaseDate.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        releaseDate.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        releaseDate.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        releaseDate.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         genres.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
         genres.bottomAnchor.constraint(equalTo: movieInfo.bottomAnchor, constant: -8.0).isActive = true
         genres.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-        genres.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        genres.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        genres.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        genres.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         poster.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
         poster.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
