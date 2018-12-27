@@ -44,7 +44,7 @@ extension UIView {
             return
         }
         
-        self.translatesAutoresizingMaskIntoConstraints = true
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         self.leftAnchor.constraint(equalTo: superview.leftAnchor, constant: offset).isActive = true
         self.rightAnchor.constraint(equalTo: superview.rightAnchor, constant: offset).isActive = true
