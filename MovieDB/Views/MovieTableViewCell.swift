@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieCollectionViewCell: UICollectionViewCell {
+final class MovieCollectionViewCell: UICollectionViewCell {
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel! {
@@ -38,20 +38,20 @@ class MovieCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setupView()
+        
+        setupLayout()
     }
     
     fileprivate func setupView() {
         movieHeaderView = MovieHeaderView(frame: contentView.frame)
-        movieHeaderView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(movieHeaderView)
-        
-        movieHeaderView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        movieHeaderView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        movieHeaderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        movieHeaderView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        
-        contentView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+    
+        contentView.backgroundColor = UIColor.clear
+    }
+    
+    fileprivate func setupLayout() {
+        movieHeaderView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor)
     }
     
     override func prepareForReuse() {

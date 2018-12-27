@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController {
+final class MoviesViewController: UIViewController {
     var collectionView: UICollectionView!
     
     var movies = [MovieViewModel]()
@@ -42,6 +42,8 @@ class MoviesViewController: UIViewController {
         
         setupView()
         
+        setupLayout()
+        
         fetchMoviesGenres()
     }
     
@@ -59,9 +61,9 @@ class MoviesViewController: UIViewController {
         
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         
-        self.view.addSubview(collectionView)
+        collectionView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
         
-        setupLayout()
+        self.view.addSubview(collectionView)
 
 //        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
 //        tableView.backgroundColor = backgroundColor

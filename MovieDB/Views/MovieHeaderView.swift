@@ -17,14 +17,12 @@ final class MovieHeaderView: UIView {
         let imageView = UIImageView(image: UIImage(named: "backdropPlaceholder"))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     lazy var poster: UIImageView! = {
         let imageView = UIImageView(image: UIImage(named: "backdropPlaceholder"))
         imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.borderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0).cgColor
         imageView.layer.borderWidth = 0.5
         imageView.layer.cornerRadius = 5.0
@@ -35,7 +33,6 @@ final class MovieHeaderView: UIView {
     lazy var movieInfo: UIView! = {
         let view = UIView(frame: CGRect.zero)
         view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -45,7 +42,6 @@ final class MovieHeaderView: UIView {
         label.textColor = .white
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -53,7 +49,6 @@ final class MovieHeaderView: UIView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Light", size: 12.0)
         label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -63,7 +58,6 @@ final class MovieHeaderView: UIView {
         label.textColor = .white
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -72,6 +66,8 @@ final class MovieHeaderView: UIView {
         super.init(frame: frame)
         
         setupView()
+        
+        setupLayout()
     }
     
     // MARK: private methods
@@ -87,46 +83,20 @@ final class MovieHeaderView: UIView {
         
         self.layer.cornerRadius = borderRadius
         self.clipsToBounds = true
-        
-        setupLayout()
     }
     
     fileprivate func setupLayout() {
-        backdrop.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        backdrop.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-        backdrop.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-        backdrop.bottomAnchor.constraint(equalTo: movieInfo.topAnchor, constant: 0).isActive = true
-        backdrop.widthAnchor.constraint(equalToConstant: self.bounds.width).isActive = true
-        backdrop.heightAnchor.constraint(equalToConstant: self.bounds.width / (16/9)).isActive = true
+        backdrop.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: movieInfo.topAnchor, right: self.rightAnchor, padding: .zero, size: CGSize(width: self.bounds.width, height: self.bounds.width / (16/9)))
         
-        movieInfo.topAnchor.constraint(equalTo: backdrop.bottomAnchor).isActive = true
-        movieInfo.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        movieInfo.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        movieInfo.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        movieInfo.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor)
         
-        title.topAnchor.constraint(equalTo: movieInfo.topAnchor, constant: 8.0).isActive = true
-        title.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
-        title.bottomAnchor.constraint(equalTo: releaseDate.topAnchor, constant: -3.0).isActive = true
-        title.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-//        title.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        title.anchor(top: movieInfo.topAnchor, left: poster.rightAnchor, bottom: releaseDate.topAnchor, right: movieInfo.rightAnchor, padding: .init(top: 8.0, left: 15.0, bottom: -3.0, right: -15.0))
         
-        releaseDate.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
-        releaseDate.bottomAnchor.constraint(equalTo: genres.topAnchor, constant: -3.0).isActive = true
-        releaseDate.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-//        releaseDate.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        releaseDate.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        releaseDate.anchor(top: nil, left: poster.rightAnchor, bottom: genres.topAnchor, right: movieInfo.rightAnchor, padding: .init(top: 3.0, left: 15.0, bottom: -3.0, right: -15.0))
         
-        genres.rightAnchor.constraint(equalTo: movieInfo.rightAnchor, constant: -15.0).isActive = true
-        genres.bottomAnchor.constraint(equalTo: movieInfo.bottomAnchor, constant: -8.0).isActive = true
-        genres.leftAnchor.constraint(equalTo: poster.rightAnchor, constant: 15.0).isActive = true
-//        genres.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-//        genres.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        genres.anchor(top: nil, left: poster.rightAnchor, bottom:  movieInfo.bottomAnchor, right: movieInfo.rightAnchor, padding: .init(top: 3.0, left: 15.0, bottom: -8, right: -15.0))
         
-        poster.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
-        poster.heightAnchor.constraint(equalToConstant: 120.0).isActive = true
-        poster.topAnchor.constraint(equalTo: backdrop.bottomAnchor, constant: -60.0).isActive = true
-        poster.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15.0).isActive = true
+        poster.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, padding: .init(top: -60.0, left: 15.0, bottom: 0, right: 0), size: .init(width: 80.0, height: 120.0))
         
     }
     
