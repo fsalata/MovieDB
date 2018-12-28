@@ -22,6 +22,8 @@ class MovieDetailsViewController: UIViewController {
         return stackView
     } ()
     
+    var closeButton: UIButton!
+    
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel!
@@ -36,6 +38,8 @@ class MovieDetailsViewController: UIViewController {
         setupView()
         
         setupLayout()
+        
+        fillMovieData()
     }
     
     //  MARK: Private methods
@@ -43,17 +47,16 @@ class MovieDetailsViewController: UIViewController {
         title = "Movie details"
         
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    fileprivate func setupLayout() {
         
         self.view.addSubview(scrollView)
         
         self.scrollView.addSubview(stackView)
-
+        
         movieHeaderView = MovieHeaderView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
         
-        fillMovieData()
-    }
-    
-    fileprivate func setupLayout() {
         scrollView.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor)
         scrollView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         
@@ -62,11 +65,12 @@ class MovieDetailsViewController: UIViewController {
         
         self.scrollView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
         
-        let closeButton = UIButton(frame: .init(x: 0.0, y: 0.0, width: 80, height: 80))
+        closeButton = UIButton(frame: .init(x: 0.0, y: 0.0, width: 80, height: 80))
         closeButton.backgroundColor = .black
         closeButton.titleLabel?.textColor = .white
         closeButton.setTitle("X", for: .normal)
         closeButton.addTarget(self, action: #selector(handleClose(_:)), for: .touchUpInside)
+        closeButton.isHidden = true
         
         stackView.addArrangedSubview(closeButton)
         
@@ -128,9 +132,9 @@ class MovieDetailsViewController: UIViewController {
     
     fileprivate func asCard(_ value: Bool) {
         if value {
-            self.view.layer.cornerRadius = 10
+            self.scrollView.layer.cornerRadius = 10
         } else {
-            self.view.layer.cornerRadius = 0
+            self.scrollView.layer.cornerRadius = 0
         }
     }
 }
@@ -157,12 +161,32 @@ extension MovieDetailsViewController: Animatable {
         // Redraw the view to update the previous changes
         self.view.layoutIfNeeded()
         sizeAnimator.addAnimations {
+            self.closeButton.isHidden = false
             self.view.layoutIfNeeded()
         }
         
         // Animate the view to not look like a card
         positionAnimator.addAnimations {
             self.asCard(false)
+        }
+    }
+    
+    func dismissingView(
+        sizeAnimator: UIViewPropertyAnimator,
+        positionAnimator: UIViewPropertyAnimator,
+        fromFrame: CGRect,
+        toFrame: CGRect
+        ) {
+        self.view.frame.size.height = toFrame.height
+        
+        sizeAnimator.addAnimations {
+            self.closeButton.isHidden = true
+            self.view.layoutIfNeeded()
+        }
+        
+        // Animate the view to look like a card
+        positionAnimator.addAnimations {
+            self.asCard(true)
         }
     }
 }
