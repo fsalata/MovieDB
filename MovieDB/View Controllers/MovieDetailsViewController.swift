@@ -11,7 +11,7 @@ import UIKit
 class MovieDetailsViewController: UIViewController {
     lazy var scrollView: UIScrollView! = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        scrollView.backgroundColor = UIColor(r: 2, g: 34, b: 67)
         return scrollView
     } ()
     
@@ -86,9 +86,8 @@ class MovieDetailsViewController: UIViewController {
     }
     
     fileprivate func fillMovieData() {
-        if let backdropPath = movie.backdropPath,
-            let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.relativeString)) {
-            movieHeaderView.backdrop.image = cachedImage
+        if let backdropPath = movie.backdropPath{
+            movieHeaderView.backdrop.sd_setImage(with: backdropPath)
         }
         else {
             movieHeaderView.backdrop.image = UIImage(named: "backdropPlaceholder")
@@ -100,7 +99,7 @@ class MovieDetailsViewController: UIViewController {
         movieHeaderView.poster.clipsToBounds = true
         
         if let posterPath = movie.posterPath {
-            movieHeaderView.poster.load(url: posterPath)
+            movieHeaderView.poster.sd_setImage(with: posterPath)
         }
         
         movieHeaderView.title.text = movie.title

@@ -57,7 +57,7 @@ final class MoviesViewController: UIViewController {
         
         tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
         
-        let backgroundColor = UIColor(r: 42, g: 42, b: 42)
+        let backgroundColor = UIColor(r: 2, g: 34, b: 67)
         tableView.backgroundColor = backgroundColor
         tableView.backgroundView?.backgroundColor = backgroundColor
         

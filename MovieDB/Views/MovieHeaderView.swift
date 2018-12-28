@@ -100,6 +100,7 @@ final class MovieHeaderView: UIView {
         
         poster.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, padding: .init(top: -60.0, left: 15.0, bottom: 0, right: 0), size: .init(width: 80.0, height: 120.0))
         
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
