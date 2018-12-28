@@ -32,24 +32,28 @@ class MovieDetailsViewController: UIViewController {
         setupView()
         
         setupLayout()
+        
+        fillMovieData()
     }
     
     //  MARK: Private methods
     private func setupView() {
         title = "Movie details"
         
-        self.view.addSubview(scrollView)
         
-        self.scrollView.addSubview(stackView)
-
-        movieHeaderView = MovieHeaderView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
-
-        self.stackView.addArrangedSubview(movieHeaderView)
         
-        fillMovieData()
+        
     }
     
     fileprivate func setupLayout() {
+        self.view.addSubview(scrollView)
+        
+        self.scrollView.addSubview(stackView)
+        
+        movieHeaderView = MovieHeaderView(frame: .init(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
+        
+        self.stackView.addArrangedSubview(movieHeaderView)
+        
         scrollView.anchor(top: self.view.layoutMarginsGuide.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor)
         scrollView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         

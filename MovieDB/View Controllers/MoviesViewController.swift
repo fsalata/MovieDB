@@ -68,10 +68,8 @@ final class MoviesViewController: UIViewController {
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         loadingMore.style = UIActivityIndicatorView.Style.white
-        loadingMore.frame = CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
+        loadingMore.frame = .init(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
         tableView.tableFooterView = self.loadingMore
-        
-        self.view.addSubview(tableView)
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -81,6 +79,8 @@ final class MoviesViewController: UIViewController {
     }
     
     fileprivate func setupLayout() {
+        self.view.addSubview(tableView)
+        
         tableView.pinEdgesToSuperview()
     }
     
