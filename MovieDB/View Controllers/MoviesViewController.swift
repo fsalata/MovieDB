@@ -36,6 +36,8 @@ final class MoviesViewController: UIViewController {
     }
     
     override func loadView() {
+        self.view = UIView()
+        
         setupLayout()
     }
     

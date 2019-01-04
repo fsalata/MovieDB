@@ -27,6 +27,8 @@ final class MovieDetailsViewController: UIViewController {
     var movie: MovieViewModel!
     
     override func loadView() {
+        self.view = UIView()
+        
         setupLayout()
     }
 
