@@ -14,19 +14,7 @@ final class MovieCell: UITableViewCell {
     
     var movie: MovieViewModel! {
         didSet {
-            if let backdropPath = movie.backdropPath {
-               movieHeaderView.backdrop.sd_setImage(with: backdropPath)
-            }
-            
-            if let posterPath = movie.posterPath {
-                movieHeaderView.poster.sd_setImage(with: posterPath)
-            }
-            
-            movieHeaderView.title.text = movie.title
-            
-            movieHeaderView.genres.text = movie.genres
-            
-            movieHeaderView.releaseDate.text =  movie.releaseDate
+            movieHeaderView.fillWith(movie)
         }
     }
     
@@ -59,8 +47,8 @@ final class MovieCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        movieHeaderView.backdrop.image =  UIImage(named: "backdropPlaceholder")
-        movieHeaderView.poster.image =  UIImage(named: "backdropPlaceholder")
+        movieHeaderView.backdrop.image =  nil
+        movieHeaderView.poster.image =  nil
         
         movieHeaderView.backdrop.sd_cancelCurrentImageLoad()
         movieHeaderView.poster.sd_cancelCurrentImageLoad()

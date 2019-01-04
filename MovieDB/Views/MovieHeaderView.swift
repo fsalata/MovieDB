@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class MovieHeaderView: UIView {
     
@@ -65,6 +66,30 @@ final class MovieHeaderView: UIView {
         setupView()
         
         setupLayout()
+    }
+    
+    // MARK: private methods
+    
+    func fillWith(_ movie: MovieViewModel) {
+        if let backdropPath = movie.backdropPath {
+            backdrop.sd_setImage(with: backdropPath)
+        }
+        else {
+            backdrop.image = UIImage(named: "backdropPlaceholder")
+        }
+        
+        if let posterPath = movie.posterPath {
+            poster.sd_setImage(with: posterPath)
+        }
+        else {
+            poster.image = UIImage(named: "backdropPlaceholder")
+        }
+        
+        title.text = movie.title
+        
+        genres.text = movie.genres
+        
+        releaseDate.text =  movie.releaseDate
     }
     
     // MARK: private methods

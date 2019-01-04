@@ -37,7 +37,7 @@ final class MovieDetailsViewController: UIViewController {
         
         setupView()
         
-        fillMovieData()
+        movieHeaderView.fillWith(movie)
     }
     
     //  MARK: Private methods
@@ -83,24 +83,5 @@ final class MovieDetailsViewController: UIViewController {
         overview.anchor(top: nil, left: overviewContainer.leftAnchor, bottom: overviewContainer.bottomAnchor, right: overviewContainer.rightAnchor, padding: .init(top: 0, left: 15, bottom: -15, right: -15))
         
         stackView.addArrangedSubview(overviewContainer)
-    }
-    
-    fileprivate func fillMovieData() {
-        if let backdropPath = movie.backdropPath{
-            movieHeaderView.backdrop.sd_setImage(with: backdropPath)
-        }
-        else {
-            movieHeaderView.backdrop.image = UIImage(named: "backdropPlaceholder")
-        }
-        
-        if let posterPath = movie.posterPath {
-            movieHeaderView.poster.sd_setImage(with: posterPath)
-        }
-        
-        movieHeaderView.title.text = movie.title
-        
-        movieHeaderView.releaseDate.text = movie.releaseDate
-        
-        movieHeaderView.genres.text = movie.genres
     }
 }
