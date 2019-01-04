@@ -18,15 +18,15 @@ final class MovieCell: UITableViewCell {
                movieHeaderView.backdrop.sd_setImage(with: backdropPath)
             }
             
+            if let posterPath = movie.posterPath {
+                movieHeaderView.poster.sd_setImage(with: posterPath)
+            }
+            
             movieHeaderView.title.text = movie.title
             
             movieHeaderView.genres.text = movie.genres
             
             movieHeaderView.releaseDate.text =  movie.releaseDate
-            
-            if let posterPath = movie.posterPath {
-                movieHeaderView.poster.sd_setImage(with: posterPath)
-            }
         }
     }
     

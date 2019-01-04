@@ -35,12 +35,14 @@ final class MoviesViewController: UIViewController {
         }
     }
     
+    override func loadView() {
+        setupLayout()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        
-        setupLayout()
         
         fetchMoviesGenres()
     }
@@ -49,8 +51,6 @@ final class MoviesViewController: UIViewController {
     
     private func setupView() {
         title = "Upcoming movies"
-        
-        tableView = UITableView(frame: self.view.frame)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -79,6 +79,8 @@ final class MoviesViewController: UIViewController {
     }
     
     fileprivate func setupLayout() {
+        tableView = UITableView(frame: self.view.frame)
+        
         self.view.addSubview(tableView)
         
         tableView.pinEdgesToSuperview()
@@ -140,11 +142,6 @@ final class MoviesViewController: UIViewController {
     private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
-    
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        self.tableView.frame = self.view.frame
-//        tableView.layoutIfNeeded()
-//    }
 }
 
 extension MoviesViewController: UITableViewDataSource {

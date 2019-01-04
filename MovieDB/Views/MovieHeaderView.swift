@@ -70,21 +70,22 @@ final class MovieHeaderView: UIView {
     // MARK: private methods
     
     fileprivate func setupView() {
+        self.clipsToBounds = true
+    }
+    
+    fileprivate func setupLayout() {
         self.addSubview(backdrop)
         self.addSubview(movieInfo)
+        
+        backdrop.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: movieInfo.topAnchor, right: self.rightAnchor, padding: .zero, size: CGSize(width: 0, height: self.bounds.width / (16/9)))
+        
+        movieInfo.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor)
+        
         self.addSubview(poster)
         
         movieInfo.addSubview(title)
         movieInfo.addSubview(releaseDate)
         movieInfo.addSubview(genres)
-        
-        self.clipsToBounds = true
-    }
-    
-    fileprivate func setupLayout() {
-        backdrop.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: movieInfo.topAnchor, right: self.rightAnchor, padding: .zero, size: CGSize(width: 0, height: self.bounds.width / (16/9)))
-        
-        movieInfo.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor)
         
         title.anchor(top: movieInfo.topAnchor, left: poster.rightAnchor, bottom: releaseDate.topAnchor, right: movieInfo.rightAnchor, padding: .init(top: 8.0, left: 15.0, bottom: -3.0, right: -15.0))
         title.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -99,7 +100,6 @@ final class MovieHeaderView: UIView {
         genres.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         poster.anchor(top: backdrop.bottomAnchor, left: self.leftAnchor, bottom: nil, right: nil, padding: .init(top: -60.0, left: 15.0, bottom: 0, right: 0), size: .init(width: 80.0, height: 120.0))
-        
         
     }
     

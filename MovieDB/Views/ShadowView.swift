@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShadowView: UIView {
+final class ShadowView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -20,8 +20,8 @@ class ShadowView: UIView {
     }
     
     func commonInit() {
-        self.layer.shadowRadius = 6
-        self.layer.shadowOffset = CGSize(width: 0, height: 6)
+        self.layer.shadowRadius = 4
+        self.layer.shadowOffset = CGSize(width: 0, height: 4)
         self.layer.shadowOpacity = 0.4
         self.layer.masksToBounds = false
     }

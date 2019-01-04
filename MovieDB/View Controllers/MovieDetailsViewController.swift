@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieDetailsViewController: UIViewController {
+final class MovieDetailsViewController: UIViewController {
     lazy var scrollView: UIScrollView! = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = UIColor(r: 2, g: 34, b: 67)
@@ -25,13 +25,15 @@ class MovieDetailsViewController: UIViewController {
     var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel!
+    
+    override func loadView() {
+        setupLayout()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        
-        setupLayout()
         
         fillMovieData()
     }
@@ -39,10 +41,6 @@ class MovieDetailsViewController: UIViewController {
     //  MARK: Private methods
     private func setupView() {
         title = "Movie details"
-        
-        
-        
-        
     }
     
     fileprivate func setupLayout() {
@@ -92,11 +90,6 @@ class MovieDetailsViewController: UIViewController {
         else {
             movieHeaderView.backdrop.image = UIImage(named: "backdropPlaceholder")
         }
-        
-        movieHeaderView.poster.layer.borderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3).cgColor
-        movieHeaderView.poster.layer.borderWidth = 0.5
-        movieHeaderView.poster.layer.cornerRadius = 5.0
-        movieHeaderView.poster.clipsToBounds = true
         
         if let posterPath = movie.posterPath {
             movieHeaderView.poster.sd_setImage(with: posterPath)
