@@ -122,19 +122,21 @@ final class MoviesViewController: UIViewController {
     }
     
     private func showErrorAlert(error: ServiceError) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-        
-        let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
-        
-        let confirm = UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { _  in
-            alert.dismiss(animated: true, completion: nil)
-            self.fetchMoviesGenres()
-        })
-        
-        alert.addAction(cancel)
-        alert.addAction(confirm)
-        
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+            
+            let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
+            
+            let confirm = UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { _  in
+                alert.dismiss(animated: true, completion: nil)
+                self.fetchMoviesGenres()
+            })
+            
+            alert.addAction(cancel)
+            alert.addAction(confirm)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     private func searchBarIsEmpty() -> Bool {
