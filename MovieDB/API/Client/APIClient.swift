@@ -27,7 +27,7 @@ final class WebClient {
             parameters = params
         }
         
-        parameters["api_key"] = ApiKey.key
+        parameters["api_key"] = ApiKey.value
         
         let request = URLRequest(baseUrl: Domains.baseURL, path: path, method: method, params: parameters)
 

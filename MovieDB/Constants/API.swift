@@ -7,7 +7,7 @@
 //
 
 struct ApiKey {
-    static let key = "1f54bd990f1cdfb230adb312546d765d"
+    static let value = "1f54bd990f1cdfb230adb312546d765d"
 }
 
 struct Domains {
