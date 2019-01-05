@@ -17,9 +17,14 @@ enum RequestMethod: String {
     case delete = "DELETE"
 }
 
+enum Result<Value, Error: Swift.Error> {
+    case success(Value)
+    case failure(Error)
+}
+
 final class WebClient {
 
-    func load(path: String, method: RequestMethod, params: JSON?, completion: @escaping (Data?, ServiceError?) -> ()) -> URLSessionDataTask? {
+    func load(path: String, method: RequestMethod, params: JSON?, completion: @escaping (Result<Data, ServiceError>) -> ()) -> URLSessionDataTask? {
         
         var parameters: JSON = [String: Any]()
         
@@ -35,7 +40,7 @@ final class WebClient {
 
             if let httpResponse = response as? HTTPURLResponse, (200..<300) ~= httpResponse.statusCode {
                 if let data = data {
-                    completion(data, nil)
+                    completion(Result.success(data))
                 }
             } else {
                 // TODO: Better error handling
@@ -46,7 +51,7 @@ final class WebClient {
     
                 let error = (object as? JSON).flatMap(ServiceError.init) ?? ServiceError.other
     
-                completion(nil, error)
+                completion(Result.failure(error))
             }
         }
 

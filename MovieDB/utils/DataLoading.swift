@@ -23,7 +23,7 @@ protocol DataLoading {
 enum ViewState<Content> {
     case loading
     case loaded(data: Content)
-    case error(message: String)
+    case error(_ message: String)
 }
 
 extension DataLoading where Self: UIViewController {

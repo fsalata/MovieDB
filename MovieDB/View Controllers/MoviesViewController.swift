@@ -117,37 +117,46 @@ final class MoviesViewController: UIViewController, DataLoading {
     @objc private func fetchMoviesGenres () {
         self.state = .loading
         
-        MovieGenresService().fetchMovieGenres { (genresList, error) in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.state = .error(message: error.localizedDescription)
-                }
-            } else if let genres = genresList?.genres {
-                self.genres = genres
+        MovieGenresService().fetchMovieGenres { result in
+            
+            switch result {
+            case .success(let data):
+                self.genres = data.genres
                 self.fetchMovies(page: self.currentPage)
+                
+            case .failure(let error):
+                self.showErrorView(message: error.localizedDescription)
             }
         }
     }
     
     private func fetchMovies(page: Int) {
-        MoviesService().fetchUpcomingMovies(page: page) { moviesList, error in
+        MoviesService().fetchUpcomingMovies(page: page) { result in
             self.isLoadingMore = false
             
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.state = .error(message: error.localizedDescription)
-                } else if let moviesList = moviesList,
-                    let results = moviesList.results {
-                    
-                    self.totalPages = moviesList.totalPages
-                    
-                    self.movies += results.map {
-                        return MovieViewModel(movie: $0, genres: self.genres)
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    if let results = data.results {
+                        self.totalPages = data.totalPages
+                        
+                        self.movies += results.map {
+                            return MovieViewModel(movie: $0, genres: self.genres)
+                        }
+                        
+                        self.state = .loaded(data: self.movies)
                     }
-                    
-                    self.state = .loaded(data: self.movies)
                 }
+                
+            case .failure(let error):
+                self.showErrorView(message: error.localizedDescription)
             }
+        }
+    }
+    
+    private func showErrorView(message: String) {
+        DispatchQueue.main.async {
+            self.state = .error(message)
         }
     }
     
