@@ -14,8 +14,8 @@ protocol DataLoading {
     associatedtype Data
     
     var state: ViewState<Data> { get set }
-    var loadingView: UIView { get }
-    var errorView: UIView { get }
+    var loadingView: LoadingView { get }
+    var errorView: ErrorView { get }
     
     func update()
 }
@@ -30,18 +30,20 @@ extension DataLoading where Self: UIViewController {
     func update() {
         switch state {
         case .loading:
+            loadingView.activityIndicator.startAnimating()
             loadingView.isHidden = false
             errorView.isHidden = true
             
         case .error(let error):
+            loadingView.activityIndicator.stopAnimating()
             loadingView.isHidden = true
             errorView.isHidden = false
-            print(error)
+            errorView.message.text = error
             
-        case .loaded(let data):
+        case .loaded:
+            loadingView.activityIndicator.stopAnimating()
             loadingView.isHidden = true
             errorView.isHidden = true
-            print(data)
         }
     }
 }

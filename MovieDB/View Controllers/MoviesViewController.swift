@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class MoviesViewController: UIViewController {
+final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
     var movies = [MovieViewModel]()
@@ -22,16 +22,28 @@ final class MoviesViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     var filteredMovies = [MovieViewModel]()
     
-    var isLoading = false {
+    var isLoadingMore = false {
         didSet {
             DispatchQueue.main.async {
-                if self.isLoading {
+                if self.isLoadingMore {
                     self.loadingMore.startAnimating()
                 }
                 else {
                     self.loadingMore.stopAnimating()
                 }
             }
+        }
+    }
+    
+    // MARK - Data loading protocol
+    
+    var loadingView: LoadingView = LoadingView()
+    var errorView: ErrorView = ErrorView()
+    
+    var state: ViewState<[MovieViewModel]> = .loading {
+        didSet {
+            update()
+            tableView.reloadData()
         }
     }
     
@@ -49,17 +61,37 @@ final class MoviesViewController: UIViewController {
         fetchMoviesGenres()
     }
     
-    // MARK: Private methods
+    // MARK: View and Layout
+    
+    fileprivate func setupLayout() {
+        tableView = UITableView(frame: self.view.frame)
+        
+        self.view.addSubview(tableView)
+        
+        tableView.pinEdgesToSuperview()
+        
+        self.view.addSubviews(loadingView, errorView)
+        
+        loadingView.pinEdgesToSuperview()
+        errorView.pinEdgesToSuperview()
+    }
     
     private func setupView() {
         title = "Upcoming movies"
+        
+        let backgroundColor = UIColor(r: 2, g: 34, b: 67)
+        
+        loadingView.backgroundColor = backgroundColor
+        errorView.backgroundColor = backgroundColor
+        
+        errorView.button.setTitle("Try again?", for: .normal)
+        errorView.button.addTarget(self, action: #selector(fetchMoviesGenres), for: .touchUpInside)
         
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
         
-        let backgroundColor = UIColor(r: 2, g: 34, b: 67)
         tableView.backgroundColor = backgroundColor
         tableView.backgroundView?.backgroundColor = backgroundColor
         
@@ -80,18 +112,16 @@ final class MoviesViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    fileprivate func setupLayout() {
-        tableView = UITableView(frame: self.view.frame)
-        
-        self.view.addSubview(tableView)
-        
-        tableView.pinEdgesToSuperview()
-    }
+    // MARK: Private methods
     
-    private func fetchMoviesGenres () {
+    @objc private func fetchMoviesGenres () {
+        self.state = .loading
+        
         MovieGenresService().fetchMovieGenres { (genresList, error) in
             if let error = error {
-                self.showErrorAlert(error: error)
+                DispatchQueue.main.async {
+                    self.state = .error(message: error.localizedDescription)
+                }
             } else if let genres = genresList?.genres {
                 self.genres = genres
                 self.fetchMovies(page: self.currentPage)
@@ -101,11 +131,11 @@ final class MoviesViewController: UIViewController {
     
     private func fetchMovies(page: Int) {
         MoviesService().fetchUpcomingMovies(page: page) { moviesList, error in
-            self.isLoading = false
+            self.isLoadingMore = false
             
             DispatchQueue.main.async {
                 if let error = error {
-                    self.showErrorAlert(error: error)
+                    self.state = .error(message: error.localizedDescription)
                 } else if let moviesList = moviesList,
                     let results = moviesList.results {
                     
@@ -115,27 +145,9 @@ final class MoviesViewController: UIViewController {
                         return MovieViewModel(movie: $0, genres: self.genres)
                     }
                     
-                    self.tableView.reloadData()
+                    self.state = .loaded(data: self.movies)
                 }
             }
-        }
-    }
-    
-    private func showErrorAlert(error: ServiceError) {
-        DispatchQueue.main.async {
-            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-            
-            let cancel = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
-            
-            let confirm = UIAlertAction(title: "Retry", style: UIAlertAction.Style.default, handler: { _  in
-                alert.dismiss(animated: true, completion: nil)
-                self.fetchMoviesGenres()
-            })
-            
-            alert.addAction(cancel)
-            alert.addAction(confirm)
-            
-            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -190,10 +202,10 @@ extension MoviesViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let totalPages = self.totalPages, !isLoading else { return }
+        guard let totalPages = self.totalPages, !isLoadingMore else { return }
         
         if indexPath.row == movies.count - 5 && currentPage <= totalPages {
-            isLoading = true
+            isLoadingMore = true
             currentPage = currentPage + 1
             
             fetchMovies(page: currentPage)

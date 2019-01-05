@@ -40,7 +40,8 @@ final class MovieDetailsViewController: UIViewController {
         movieHeaderView.fillWith(movie)
     }
     
-    //  MARK: Private methods
+    // MARK: View and Layout
+    
     private func setupView() {
         title = "Movie details"
     }
