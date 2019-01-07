@@ -117,7 +117,8 @@ final class MoviesViewController: UIViewController, DataLoading {
     @objc private func fetchMoviesGenres () {
         self.state = .loading
         
-        MovieGenresService().fetchMovieGenres { result in
+        MovieGenresService().fetchMovieGenres { [weak self] result in
+            guard let self = self else { return }
             
             switch result {
             case .success(let data):
@@ -131,7 +132,9 @@ final class MoviesViewController: UIViewController, DataLoading {
     }
     
     private func fetchMovies(page: Int) {
-        MoviesService().fetchUpcomingMovies(page: page) { result in
+        MoviesService().fetchUpcomingMovies(page: page) { [weak self]  result in
+            guard let self = self else { return }
+            
             self.isLoadingMore = false
             
             switch result {

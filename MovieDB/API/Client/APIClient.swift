@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Network
 
 typealias JSON = [String: Any]
 
@@ -23,8 +24,28 @@ enum Result<Value, Error: Swift.Error> {
 }
 
 final class WebClient {
+    let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
+    var isConnected = true
+    
+    init() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.isConnected = true
+            } else {
+                self.isConnected = false
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
 
     func load(path: String, method: RequestMethod, params: JSON?, completion: @escaping (Result<Data, ServiceError>) -> ()) -> URLSessionDataTask? {
+        
+        guard isConnected else {
+            completion(Result.failure(ServiceError.noInternetConnection))
+            return nil
+        }
         
         var parameters: JSON = [String: Any]()
         
@@ -43,7 +64,6 @@ final class WebClient {
                     completion(Result.success(data))
                 }
             } else {
-                // TODO: Better error handling
                 var object: Any?
                 if let data = data {
                     object = try? JSONSerialization.jsonObject(with: data, options: [])
