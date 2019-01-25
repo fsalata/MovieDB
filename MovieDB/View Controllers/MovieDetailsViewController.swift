@@ -8,48 +8,81 @@
 
 import UIKit
 
-class MovieDetailsViewController: UIViewController {
-    @IBOutlet weak var backdrop: UIImageView!
-    @IBOutlet weak var poster: UIImageView!
-    @IBOutlet weak var infoView: UIView!
-    @IBOutlet weak var movieTitle: UILabel!
-    @IBOutlet weak var releaseDate: UILabel!
-    @IBOutlet weak var genres: UILabel!
-    @IBOutlet weak var overview: UILabel!
+final class MovieDetailsViewController: UIViewController {
+    lazy var scrollView: UIScrollView! = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = UIColor(r: 2, g: 34, b: 67)
+        return scrollView
+    } ()
+    
+    lazy var stackView: UIStackView! = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 0
+        return stackView
+    } ()
+    
+    var movieHeaderView: MovieHeaderView!
     
     var movie: MovieViewModel!
+    
+    override func loadView() {
+        self.view = UIView()
+        
+        setupLayout()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+        
+        movieHeaderView.fillWith(movie)
     }
     
-    //  MARK: Private methods
+    // MARK: View and Layout
+    
     private func setupView() {
-        if let backdropPath = movie.backdropPath,
-            let cachedImage = ImageCache.sharedInstance.cache.object(forKey: NSString(string: backdropPath.relativeString)) {
-            backdrop.image = cachedImage
-        }
-        else {
-            backdrop.image = UIImage(named: "backdropPlaceholder")
-        }
+        title = "Movie details"
+    }
+    
+    fileprivate func setupLayout() {
+        self.view.addSubview(scrollView)
         
-        self.poster.layer.borderColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3).cgColor
-        self.poster.layer.borderWidth = 0.5
-        self.poster.layer.cornerRadius = 5.0
-        self.poster.clipsToBounds = true
+        self.scrollView.addSubview(stackView)
         
-        if let posterPath = movie.posterPath {
-            self.poster.load(url: posterPath)
-        }
+        movieHeaderView = MovieHeaderView(frame: .init(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 280.0))
         
-        movieTitle.text = movie.title
+        self.stackView.addArrangedSubview(movieHeaderView)
         
-        releaseDate.text = movie.releaseDate
+        scrollView.anchor(top: self.view.layoutMarginsGuide.topAnchor, left: self.view.leftAnchor, bottom: self.view.bottomAnchor, right: self.view.rightAnchor)
+        scrollView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
         
-        genres.text = movie.genres
+        stackView.anchor(top: scrollView.topAnchor, left: scrollView.leftAnchor, bottom: scrollView.bottomAnchor, right: scrollView.rightAnchor)
+        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
+        let overviewContainer = UIView()
+        overviewContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        let overviewTitle = UILabel()
+        overviewTitle.translatesAutoresizingMaskIntoConstraints = false
+        overviewTitle.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
+        overviewTitle.textColor = .white
+        overviewTitle.text = "Overview"
+        
+        let overview = UILabel()
+        overview.translatesAutoresizingMaskIntoConstraints = false
+        overview.font = UIFont(name: "HelveticaNeue", size: 13.0)
+        overview.textColor = .white
+        overview.numberOfLines = 0
         overview.text = movie.overview
+
+        overviewContainer.addSubviews(overviewTitle, overview)
+        
+        overviewTitle.anchor(top: overviewContainer.topAnchor, left: overviewContainer.leftAnchor, bottom: overview.topAnchor, right: overviewContainer.rightAnchor, padding: .init(top: 15, left: 15, bottom: -8, right: -15))
+        
+        overview.anchor(top: nil, left: overviewContainer.leftAnchor, bottom: overviewContainer.bottomAnchor, right: overviewContainer.rightAnchor, padding: .init(top: 0, left: 15, bottom: -15, right: -15))
+        
+        stackView.addArrangedSubview(overviewContainer)
     }
 }

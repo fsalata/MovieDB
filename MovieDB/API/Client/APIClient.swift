@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Network
 
 typealias JSON = [String: Any]
 
@@ -17,9 +18,34 @@ enum RequestMethod: String {
     case delete = "DELETE"
 }
 
-final class WebClient {
+enum Result<Value, Error: Swift.Error> {
+    case success(Value)
+    case failure(Error)
+}
 
-    func load(path: String, method: RequestMethod, params: JSON?, completion: @escaping (Data?, ServiceError?) -> ()) -> URLSessionDataTask? {
+final class WebClient {
+    let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
+    var isConnected = true
+    
+    init() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.isConnected = true
+            } else {
+                self.isConnected = false
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+    }
+
+    func load(path: String, method: RequestMethod, params: JSON?, completion: @escaping (Result<Data, ServiceError>) -> ()) -> URLSessionDataTask? {
+        
+        guard isConnected else {
+            completion(Result.failure(ServiceError.noInternetConnection))
+            return nil
+        }
         
         var parameters: JSON = [String: Any]()
         
@@ -27,7 +53,7 @@ final class WebClient {
             parameters = params
         }
         
-        parameters["api_key"] = ApiKey.key
+        parameters["api_key"] = ApiKey.value
         
         let request = URLRequest(baseUrl: Domains.baseURL, path: path, method: method, params: parameters)
 
@@ -35,10 +61,9 @@ final class WebClient {
 
             if let httpResponse = response as? HTTPURLResponse, (200..<300) ~= httpResponse.statusCode {
                 if let data = data {
-                    completion(data, nil)
+                    completion(Result.success(data))
                 }
             } else {
-                // TODO: Better error handling
                 var object: Any?
                 if let data = data {
                     object = try? JSONSerialization.jsonObject(with: data, options: [])
@@ -46,7 +71,7 @@ final class WebClient {
     
                 let error = (object as? JSON).flatMap(ServiceError.init) ?? ServiceError.other
     
-                completion(nil, error)
+                completion(Result.failure(error))
             }
         }
 
