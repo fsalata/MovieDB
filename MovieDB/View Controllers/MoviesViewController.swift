@@ -15,16 +15,11 @@ protocol MoviesViewControllerDelegate: class {
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
-    var movies = [MovieViewModel]()
-    var genres = [Genre]()
-    
-    var currentPage = 1
-    var totalPages: Int?
+    var moviesViewModel = MoviesViewModel(moviesService: MoviesService(), genresService: MovieGenresService())
     
     let loadingMore = UIActivityIndicatorView()
     
     let searchController = UISearchController(searchResultsController: nil)
-    var filteredMovies = [MovieViewModel]()
     
     weak var delegate: MoviesViewControllerDelegate?
     
@@ -64,7 +59,7 @@ final class MoviesViewController: UIViewController, DataLoading {
         
         setupView()
         
-        fetchMoviesGenres()
+        fetchMovies(loading: true)
     }
     
     // MARK: View and Layout
@@ -91,7 +86,7 @@ final class MoviesViewController: UIViewController, DataLoading {
         errorView.backgroundColor = backgroundColor
         
         errorView.button.setTitle("Try again?", for: .normal)
-        errorView.button.addTarget(self, action: #selector(fetchMoviesGenres), for: .touchUpInside)
+        errorView.button.addTarget(self, action: #selector(fetchMovies(loading:)), for: .touchUpInside)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -120,45 +115,28 @@ final class MoviesViewController: UIViewController, DataLoading {
     
     // MARK: Private methods
     
-    @objc private func fetchMoviesGenres () {
-        self.state = .loading
-        
-        MovieGenresService().fetchMovieGenres { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let data):
-                self.genres = data.genres
-                self.fetchMovies(page: self.currentPage)
-                
-            case .failure(let error):
-                self.showErrorView(message: error.localizedDescription)
-            }
+    @objc private func fetchMovies (loading: Bool = false) {
+        if loading {
+            self.state = .loading
         }
-    }
-    
-    private func fetchMovies(page: Int) {
-        MoviesService().fetchUpcomingMovies(page: page) { [weak self]  result in
+        
+        moviesViewModel.fetch { [weak self] in
             guard let self = self else { return }
             
             self.isLoadingMore = false
             
-            switch result {
-            case .success(let data):
+            guard self.moviesViewModel.error == nil else {
+                let error = self.moviesViewModel.error!
+                
                 DispatchQueue.main.async {
-                    if let results = data.results {
-                        self.totalPages = data.totalPages
-                        
-                        self.movies += results.map {
-                            return MovieViewModel(movie: $0, genres: self.genres)
-                        }
-                        
-                        self.state = .loaded(data: self.movies)
-                    }
+                    self.showErrorView(message: error.localizedDescription)
                 }
                 
-            case .failure(let error):
-                self.showErrorView(message: error.localizedDescription)
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.state = .loaded(data: self.moviesViewModel.movies)
             }
         }
     }
@@ -185,10 +163,10 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            return filteredMovies.count
+            return moviesViewModel.filteredMovies.count
         }
         
-        return movies.count
+        return moviesViewModel.movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -197,10 +175,10 @@ extension MoviesViewController: UITableViewDataSource {
         var movie: MovieViewModel
         
         if isFiltering() {
-            movie = filteredMovies[indexPath.row]
+            movie = moviesViewModel.filteredMovies[indexPath.row]
         }
         else {
-            movie = movies[indexPath.row]
+            movie = moviesViewModel.movies[indexPath.row]
         }
         
         cell.movie = movie
@@ -211,21 +189,21 @@ extension MoviesViewController: UITableViewDataSource {
 
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = movies[indexPath.row]
+        let movie = moviesViewModel.movies[indexPath.row]
         
         delegate?.showMovieDetails(movie: movie)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let totalPages = self.totalPages, !isLoadingMore else { return }
+        guard let totalPages = self.moviesViewModel.totalPages, !isLoadingMore else { return }
         
-        if indexPath.row == movies.count - 5 && currentPage <= totalPages {
+        if indexPath.row == self.moviesViewModel.movies.count - 5 && moviesViewModel.currentPage <= totalPages {
             isLoadingMore = true
-            currentPage = currentPage + 1
+            moviesViewModel.currentPage = moviesViewModel.currentPage + 1
             
-            fetchMovies(page: currentPage)
+            fetchMovies(loading: false)
             
-            if currentPage == totalPages {
+            if moviesViewModel.currentPage == totalPages {
                 tableView.tableFooterView = UIView(frame: CGRect.zero)
             }
         }
@@ -236,7 +214,7 @@ extension MoviesViewController: UITableViewDelegate {
 extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         
-        filteredMovies = movies.filter({( movie: MovieViewModel) -> Bool in
+        moviesViewModel.filteredMovies = moviesViewModel.movies.filter({( movie: MovieViewModel) -> Bool in
             return movie.title.lowercased().contains(searchController.searchBar.text!.lowercased())
         })
         
