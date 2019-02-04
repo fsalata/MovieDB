@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MoviesViewControllerDelegate: class {
+    func showMovieDetails(movie: MovieViewModel)
+}
+
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
@@ -21,6 +25,8 @@ final class MoviesViewController: UIViewController, DataLoading {
     
     let searchController = UISearchController(searchResultsController: nil)
     var filteredMovies = [MovieViewModel]()
+    
+    weak var delegate: MoviesViewControllerDelegate?
     
     var isLoadingMore = false {
         didSet {
@@ -205,12 +211,9 @@ extension MoviesViewController: UITableViewDataSource {
 
 extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieDetailsViewController = MovieDetailsViewController()
-        movieDetailsViewController.movie = movies[indexPath.row]
+        let movie = movies[indexPath.row]
         
-        guard let navigationController = self.navigationController else { return }
-        
-        navigationController.pushViewController(movieDetailsViewController, animated: true)
+        delegate?.showMovieDetails(movie: movie)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
