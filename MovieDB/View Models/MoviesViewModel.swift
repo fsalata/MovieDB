@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MoviesViewModel {
+final class MoviesViewModel {
     var movies = [MovieViewModel]()
     var filteredMovies = [MovieViewModel]()
     
