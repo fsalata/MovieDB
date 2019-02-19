@@ -30,19 +30,19 @@ final class MoviesViewModel {
         self.genresService = genresService
     }
     
-    func fetch(page: Int = 1, completion: @escaping () -> ()) {
+    func fetch(completion: @escaping () -> ()) {
         if genres.count == 0 {
             fetchGenres()
         }
         
-        fetchMovies(page: self.currentPage)
+        fetchMovies(page: currentPage)
         
         dispatchGroup.notify(queue: .main) {
             completion()
         }
     }
     
-    func fetchGenres() {
+    fileprivate func fetchGenres() {
         dispatchGroup.enter()
         
         genresService.fetchMovieGenres { [weak self] result in
@@ -63,7 +63,7 @@ final class MoviesViewModel {
         }
     }
     
-    func fetchMovies(page: Int) {
+    fileprivate func fetchMovies(page: Int) {
         dispatchGroup.enter()
         
         moviesService.fetchUpcomingMovies(page: page) { [weak self]  result in
