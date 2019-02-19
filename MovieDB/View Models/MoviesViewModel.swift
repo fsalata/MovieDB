@@ -23,39 +23,49 @@ final class MoviesViewModel {
     private var moviesService: MoviesService
     private var genresService: MovieGenresService
     
+    private let dispatchGroup = DispatchGroup()
+    
     init(moviesService: MoviesService, genresService: MovieGenresService) {
         self.moviesService = moviesService
         self.genresService = genresService
     }
     
-    func fetch(completion: @escaping () -> ()) {
+    func fetch(page: Int = 1, completion: @escaping () -> ()) {
         if genres.count == 0 {
-            genresService.fetchMovieGenres { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let data):
-                    self.genres = data.genres
-                    self.error = nil
-                    
-                    self.fetchMovies(page: self.currentPage) {
-                        completion()
-                    }
-                    
-                case .failure(let error):
-                    self.error = error
-                    completion()
-                }
-            }
+            fetchGenres()
         }
-        else {
-            self.fetchMovies(page: self.currentPage) {
-                completion()
+        
+        fetchMovies(page: self.currentPage)
+        
+        dispatchGroup.notify(queue: .main) {
+            completion()
+        }
+    }
+    
+    func fetchGenres() {
+        dispatchGroup.enter()
+        
+        genresService.fetchMovieGenres { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let data):
+                self.genres = data.genres
+                self.error = nil
+                
+                self.dispatchGroup.leave()
+                
+            case .failure(let error):
+                self.error = error
+                
+                self.dispatchGroup.leave()
             }
         }
     }
     
-    func fetchMovies(page: Int, completion: @escaping () -> ()) {
+    func fetchMovies(page: Int) {
+        dispatchGroup.enter()
+        
         moviesService.fetchUpcomingMovies(page: page) { [weak self]  result in
             guard let self = self else { return }
             
@@ -70,12 +80,13 @@ final class MoviesViewModel {
                     
                     self.error = nil
                     
-                    completion()
+                    self.dispatchGroup.leave()
                 }
                 
             case .failure(let error):
                 self.error = error
-                completion()
+                
+                self.dispatchGroup.leave()
             }
         }
     }
