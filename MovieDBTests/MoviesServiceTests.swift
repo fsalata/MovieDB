@@ -7,27 +7,56 @@
 //
 
 import XCTest
+@testable import MovieDB
 
 class MoviesServiceTests: XCTestCase {
+    var moviesService: MoviesService?
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        self.moviesService = MoviesService()
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        self.moviesService = nil
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testFetchMoviesSuccess() {
+        let expectation = XCTestExpectation(description: "Movie list downloaded")
+        
+        self.moviesService?.fetchUpcomingMovies(page: nil, completion: { result in
+            switch result {
+            case .success(let data):
+                XCTAssertNotNil(data.results, "No movie downloaded")
+                
+                expectation.fulfill()
+                
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+        
+        wait(for: [expectation], timeout: 10.0)
     }
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testFetchMovieByPageSuccess() {
+        let expectation = XCTestExpectation(description: "Movie list downloaded")
+        
+        let currentPage = 3
+        
+        self.moviesService?.fetchUpcomingMovies(page: currentPage, completion: { result in
+            switch result {
+            case .success(let data):
+                XCTAssertNotNil(data.results, "No movie downloaded")
+                XCTAssert(data.page == currentPage, "Wrong page")
+                
+                expectation.fulfill()
+                
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        })
+        
+        wait(for: [expectation], timeout: 10.0)
     }
 
 }
