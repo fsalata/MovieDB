@@ -25,13 +25,13 @@ final class MoviesViewModel {
     
     private let dispatchGroup = DispatchGroup()
     
-    init(moviesService: MoviesService, genresService: MovieGenresService) {
+    init(moviesService: MoviesService = MoviesService(), genresService: MovieGenresService = MovieGenresService()) {
         self.moviesService = moviesService
         self.genresService = genresService
     }
     
     func fetch(completion: @escaping () -> ()) {
-        if genres.count == 0 {
+        if genres.isEmpty {
             fetchGenres()
         }
         

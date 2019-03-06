@@ -1,14 +1,14 @@
 //
-//  MovieDBTests.swift
+//  MoviesServiceTests.swift
 //  MovieDBTests
 //
-//  Created by Fábio Salata on 19/02/19.
+//  Created by Fábio Salata on 06/03/19.
 //  Copyright © 2019 Fabio Salata. All rights reserved.
 //
 
 import XCTest
 
-class MovieDBTests: XCTestCase {
+class MoviesServiceTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -15,7 +15,7 @@ protocol MoviesViewControllerDelegate: class {
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
-    var moviesViewModel = MoviesViewModel(moviesService: MoviesService(), genresService: MovieGenresService())
+    var moviesViewModel = MoviesViewModel()
     
     let loadingMore = UIActivityIndicatorView()
     
