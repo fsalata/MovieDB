@@ -120,9 +120,7 @@ final class MoviesViewController: UIViewController, DataLoading {
             self.state = .loading
         }
         
-        moviesViewModel.fetch { [weak self] in
-            guard let self = self else { return }
-            
+        moviesViewModel.fetch { [unowned self] in
             self.isLoadingMore = false
             
             guard self.moviesViewModel.error == nil else {

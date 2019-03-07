@@ -203,12 +203,12 @@
 			isa = PBXGroup;
 			children = (
 				184E68AB22086669007EB45B /* Coordinators */,
-				E49BE9EF21B4934400050C85 /* API */,
+				E49BE9EF21B4934400050C85 /* Networking */,
 				E4A1C6B521BFCAC900681B80 /* Models */,
 				E401756021C8556600072A99 /* View Models */,
 				E4DB3AD821C0109D0041E843 /* View Controllers */,
 				E49A77DA21BD32F00057EE29 /* Views */,
-				E467A60221B32B07000521B7 /* utils */,
+				E467A60221B32B07000521B7 /* Utils */,
 				E4949C8B21C44AC700BF1B5D /* Constants */,
 				E467A5ED21B326C7000521B7 /* AppDelegate.swift */,
 				E467A5F121B326C7000521B7 /* Main.storyboard */,
@@ -219,7 +219,7 @@
 			path = MovieDB;
 			sourceTree = "<group>";
 		};
-		E467A60221B32B07000521B7 /* utils */ = {
+		E467A60221B32B07000521B7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				E499C7D221C124160072109E /* UIViewExtension.swift */,
@@ -229,7 +229,7 @@
 				E437F6C921C2A5AA00B8744C /* UIImageExtension.swift */,
 				E4CF34BC21D4E56100413BB0 /* NavigationController.swift */,
 			);
-			path = utils;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		E4949C8B21C44AC700BF1B5D /* Constants */ = {
@@ -252,13 +252,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E49BE9EF21B4934400050C85 /* API */ = {
+		E49BE9EF21B4934400050C85 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				E4A8D19C21B6B65A00328F38 /* Services */,
 				E4A8D19F21B6B68B00328F38 /* Client */,
 			);
-			path = API;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		E4A1C6B521BFCAC900681B80 /* Models */ = {

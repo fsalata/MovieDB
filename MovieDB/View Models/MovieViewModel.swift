@@ -21,19 +21,29 @@ struct MovieViewModel {
         
         self.title = movie.title
         
-        self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate) ?? ""
+        self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate)
         
-        self.backdropPath = movie.backdropPath != nil ? URL(string: Domains.posterURL + movie.backdropPath!) : nil
+        self.backdropPath = MovieViewModel.formatImageURL(path: movie.backdropPath)
         
-        self.posterPath = movie.posterPath != nil ? URL(string: Domains.posterURL + movie.posterPath!) : nil
+        self.posterPath = MovieViewModel.formatImageURL(path: movie.posterPath)
         
-        self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres) ?? ""
+        self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres)
         
         self.overview = movie.overview ?? ""
     }
     
-    fileprivate static func formatDateFrom(string dateString: String?) -> String? {
-        guard let dateString = dateString else { return nil }
+    fileprivate static func formatImageURL(path: String?) -> URL? {
+        guard let path = path else {
+            return nil
+        }
+        
+        let url = URL(string: Domains.posterURL + path)
+        
+        return url
+    }
+    
+    fileprivate static func formatDateFrom(string dateString: String?) -> String {
+        guard let dateString = dateString else { return "" }
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -45,8 +55,8 @@ struct MovieViewModel {
         return dateFormatter.string(from: date!)
     }
     
-   fileprivate static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String? {
-        guard let genresIDS = genresIDS else { return nil }
+   fileprivate static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String {
+        guard let genresIDS = genresIDS else { return "" }
     
         let genres = genresIDS.compactMap{ id in
             return genres.first(where: { $0.id == id })?.name ?? nil
