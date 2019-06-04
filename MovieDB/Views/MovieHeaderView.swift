@@ -40,6 +40,7 @@ final class MovieHeaderView: UIView {
         label.textColor = .white
         label.numberOfLines = 2
         label.lineBreakMode = .byWordWrapping
+        label.backgroundColor = .black
         return label
     }()
     
@@ -47,6 +48,7 @@ final class MovieHeaderView: UIView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Light", size: 12.0)
         label.textColor = .white
+        label.backgroundColor = .black
         return label
     }()
     
@@ -56,6 +58,7 @@ final class MovieHeaderView: UIView {
         label.textColor = .white
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+        label.backgroundColor = .black
         return label
     }()
     

@@ -69,6 +69,7 @@ final class MovieDetailsViewController: UIViewController {
         overviewTitle.font = UIFont(name: "HelveticaNeue-Bold", size: 16.0)
         overviewTitle.textColor = .white
         overviewTitle.text = "Overview"
+        overviewTitle.backgroundColor = UIColor(r: 2, g: 34, b: 67)
         
         let overview = UILabel()
         overview.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +77,7 @@ final class MovieDetailsViewController: UIViewController {
         overview.textColor = .white
         overview.numberOfLines = 0
         overview.text = movie.overview
+        overview.backgroundColor = UIColor(r: 2, g: 34, b: 67)
 
         overviewContainer.addSubviews(overviewTitle, overview)
         

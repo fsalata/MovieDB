@@ -346,10 +346,12 @@
 				TargetAttributes = {
 					006F7086221C875D00574166 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = E467A5E921B326C7000521B7;
 					};
 					E467A5E921B326C7000521B7 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -549,7 +551,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.tests.MovieDBTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MovieDB.app/MovieDB";
 			};
@@ -568,7 +570,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bin.tests.MovieDBTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MovieDB.app/MovieDB";
 			};
@@ -704,7 +706,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -723,7 +725,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.fsalata.moviedb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

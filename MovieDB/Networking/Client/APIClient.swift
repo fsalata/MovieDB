@@ -18,11 +18,6 @@ enum RequestMethod: String {
     case delete = "DELETE"
 }
 
-enum Result<Value, Error: Swift.Error> {
-    case success(Value)
-    case failure(Error)
-}
-
 final class WebClient {
     let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
     var isConnected = true
