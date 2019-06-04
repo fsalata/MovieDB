@@ -27,11 +27,11 @@ class MoviesServiceTests: XCTestCase {
             switch result {
             case .success(let data):
                 XCTAssertNotNil(data.results, "No movie downloaded")
-                
                 expectation.fulfill()
                 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+                expectation.fulfill()
             }
         })
         
@@ -47,12 +47,12 @@ class MoviesServiceTests: XCTestCase {
             switch result {
             case .success(let data):
                 XCTAssertNotNil(data.results, "No movie downloaded")
-                XCTAssert(data.page == currentPage, "Wrong page")
-                
+                XCTAssertEqual(data.page, currentPage, "Wrong page")
                 expectation.fulfill()
                 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+                expectation.fulfill()
             }
         })
         

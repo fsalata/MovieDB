@@ -41,12 +41,12 @@ class MovieViewModelTests: XCTestCase {
         let releaseDateExpectation = "16/11/2018"
         
         
-        XCTAssert(self.movieViewModel?.title == title, "Title error")
-        XCTAssert(self.movieViewModel?.posterPath == posterPathExpectation, "Poster path error")
-        XCTAssert(self.movieViewModel?.backdropPath == backdropPathExpectation, "Backdrop path error")
-        XCTAssert(self.movieViewModel?.genres == genresExpectation, "Genres error")
-        XCTAssert(self.movieViewModel?.overview == overview, "OverviewError")
-        XCTAssert(self.movieViewModel?.releaseDate == releaseDateExpectation, "Release date error")
+        XCTAssertEqual(self.movieViewModel?.title, title, "Title error")
+        XCTAssertEqual(self.movieViewModel?.posterPath, posterPathExpectation, "Poster path error")
+        XCTAssertEqual(self.movieViewModel?.backdropPath, backdropPathExpectation, "Backdrop path error")
+        XCTAssertEqual(self.movieViewModel?.genres, genresExpectation, "Genres error")
+        XCTAssertEqual(self.movieViewModel?.overview, overview, "OverviewError")
+        XCTAssertEqual(self.movieViewModel?.releaseDate, releaseDateExpectation, "Release date error")
     }
 
 }

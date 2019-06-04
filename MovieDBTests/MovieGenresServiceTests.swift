@@ -28,11 +28,11 @@ class MovieGenresServiceTests: XCTestCase {
             switch result {
             case .success(let data):
                 XCTAssertNotNil(data.genres, "No genres downloaded")
-                
                 expectation.fulfill()
                 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+                expectation.fulfill()
             }
         })
         
