@@ -23,6 +23,9 @@ final class ShadowView: UIView {
         self.layer.shadowRadius = 4
         self.layer.shadowOffset = CGSize(width: 0, height: 4)
         self.layer.shadowOpacity = 0.4
+        let rect = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        let path = UIBezierPath(rect: rect).cgPath
+        self.layer.shadowPath = path
         self.layer.masksToBounds = false
     }
 }

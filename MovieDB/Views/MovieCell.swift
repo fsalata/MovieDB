@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 final class MovieCell: UITableViewCell {
     var movieHeaderView: MovieHeaderView!
