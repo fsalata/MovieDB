@@ -7,4 +7,4 @@ Tiago Oliveira
 none
 
 ## Third-party Libraries
-none
+[SDWebImage](https://github.com/SDWebImage/SDWebImage)
