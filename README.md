@@ -1,5 +1,7 @@
 # MovieDB
 
+![SDWebImage](https://img.shields.io/badge/ImageLib-SDWebImage-inactive.svg) 
+
 ## Contributors
 Tiago Oliveira
 
