@@ -23,21 +23,21 @@ struct MovieViewModel {
         
         self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate)
         
-        self.backdropPath = MovieViewModel.formatImageURL(path: movie.backdropPath)
+        self.backdropPath = MovieViewModel.formatImageURL(path: movie.backdropPath, with: Domains.backdropURL)
         
-        self.posterPath = MovieViewModel.formatImageURL(path: movie.posterPath)
+        self.posterPath = MovieViewModel.formatImageURL(path: movie.posterPath, with: Domains.posterURL)
         
         self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres)
         
         self.overview = movie.overview ?? ""
     }
     
-    fileprivate static func formatImageURL(path: String?) -> URL? {
+    fileprivate static func formatImageURL(path: String?, with domain: String) -> URL? {
         guard let path = path else {
             return nil
         }
         
-        let url = URL(string: Domains.posterURL + path)
+        let url = URL(string: domain + path)
         
         return url
     }
