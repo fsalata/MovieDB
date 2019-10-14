@@ -9,7 +9,6 @@
 import UIKit
 
 class MoviesCoordinator: Coordinator {
-    
     var navigationController: UINavigationController
     
     private var moviesViewController: MoviesViewController?
@@ -19,16 +18,23 @@ class MoviesCoordinator: Coordinator {
     }
     
     func start() {
-        let moviesViewController = MoviesViewController()
-        moviesViewController.delegate = self
+        let viewModel = MoviesViewModel()
+        
+        let moviesViewController = MoviesViewController(viewModel: viewModel)
+        
+        viewModel.delegate = self
         
         navigationController.pushViewController(moviesViewController, animated: true)
         
         self.moviesViewController = moviesViewController
     }
+    
+    func stop() {
+        moviesViewController = nil
+    }
 }
 
-extension MoviesCoordinator: MoviesViewControllerDelegate {
+extension MoviesCoordinator: MoviesViewModelDelegate {
     func showMovieDetails(movie: MovieViewModel) {
         let movieDetailsCoordinator = MovieDetailsCoordinator(navigationController: navigationController, movie: movie)
         

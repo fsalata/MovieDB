@@ -46,7 +46,7 @@ final class MovieDetailsViewController: UIViewController {
         title = "Movie details"
     }
     
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         self.view.addSubview(scrollView)
         
         self.scrollView.addSubview(stackView)

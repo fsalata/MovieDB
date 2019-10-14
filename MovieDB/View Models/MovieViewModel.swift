@@ -32,7 +32,7 @@ struct MovieViewModel {
         self.overview = movie.overview ?? ""
     }
     
-    fileprivate static func formatImageURL(path: String?) -> URL? {
+    private static func formatImageURL(path: String?) -> URL? {
         guard let path = path else {
             return nil
         }
@@ -42,7 +42,7 @@ struct MovieViewModel {
         return url
     }
     
-    fileprivate static func formatDateFrom(string dateString: String?) -> String {
+    private static func formatDateFrom(string dateString: String?) -> String {
         guard let dateString = dateString else { return "" }
         
         let dateFormatter = DateFormatter()
@@ -55,7 +55,7 @@ struct MovieViewModel {
         return dateFormatter.string(from: date!)
     }
     
-   fileprivate static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String {
+   private static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String {
         guard let genresIDS = genresIDS else { return "" }
     
         let genres = genresIDS.compactMap{ id in
