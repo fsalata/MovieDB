@@ -161,7 +161,7 @@ extension MovieHeaderView: SDWebImageManagerDelegate {
     private func resizeMovie(image: UIImage, to size: CGSize) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
         
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height * (image.size.width / image.size.height))
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
         UIBezierPath(roundedRect: rect, cornerRadius: 5.0).addClip()
         
