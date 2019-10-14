@@ -35,7 +35,7 @@ final class ErrorView: UIView {
     }
     
     // MARK - Private methods
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -51,7 +51,7 @@ final class ErrorView: UIView {
         
     }
     
-    fileprivate func setupView() {
+    private func setupView() {
         self.backgroundColor = .clear
     }
     
