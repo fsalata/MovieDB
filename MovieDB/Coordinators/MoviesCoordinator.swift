@@ -8,10 +8,12 @@
 
 import UIKit
 
-class MoviesCoordinator: Coordinator {
+class MoviesCoordinator: NSObject, Coordinator {
     var navigationController: UINavigationController
     
     private var moviesViewController: MoviesViewController?
+    
+    private var movieDetailsCoordinator: MovieDetailsCoordinator?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -24,6 +26,8 @@ class MoviesCoordinator: Coordinator {
         
         viewModel.delegate = self
         
+        navigationController.delegate = self
+        
         navigationController.pushViewController(moviesViewController, animated: true)
         
         self.moviesViewController = moviesViewController
@@ -31,13 +35,32 @@ class MoviesCoordinator: Coordinator {
     
     func stop() {
         moviesViewController = nil
+        movieDetailsCoordinator = nil
     }
 }
 
 extension MoviesCoordinator: MoviesViewModelDelegate {
     func showMovieDetails(movie: MovieViewModel) {
-        let movieDetailsCoordinator = MovieDetailsCoordinator(navigationController: navigationController, movie: movie)
+        let movieCoordinator = MovieDetailsCoordinator(navigationController: navigationController, movie: movie)
         
-        movieDetailsCoordinator.start()
+        movieDetailsCoordinator = movieCoordinator
+        
+        movieCoordinator.start()
+    }
+}
+
+extension MoviesCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
+            return
+        }
+        
+        
+        if navigationController.viewControllers.contains(fromViewController) {
+            return
+        }
+        
+        movieDetailsCoordinator?.stop()
+        movieDetailsCoordinator = nil
     }
 }
