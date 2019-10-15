@@ -25,16 +25,20 @@ final class MovieCell: UITableViewCell {
         setupLayout()
     }
     
-    fileprivate func setupView() {
+    private func setupView() {
         self.selectionStyle = .none
         self.backgroundColor = UIColor(r: 2, g: 34, b: 67)
     }
     
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         let shadowView = ShadowView(frame: contentView.frame)
         contentView.addSubview(shadowView)
         
-        shadowView.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, bottom: contentView.bottomAnchor, right: contentView.rightAnchor, padding: .init(top: 20.0, left: 10.0, bottom: 0.0, right: -10.0))
+        shadowView.anchor(top: contentView.topAnchor,
+                          left: contentView.leftAnchor,
+                          bottom: contentView.bottomAnchor,
+                          right: contentView.rightAnchor,
+                          padding: .init(top: 20.0, left: 10.0, bottom: 0.0, right: -10.0))
         
         movieHeaderView = MovieHeaderView(frame: shadowView.frame)
         shadowView.addSubview(movieHeaderView)

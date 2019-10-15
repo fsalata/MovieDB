@@ -12,9 +12,9 @@ class MovieDetailsCoordinator: Coordinator {
     
     var navigationController: UINavigationController
     
-    private var movieDetailsViewController: MovieDetailsViewController?
+    var movieDetailsViewController: MovieDetailsViewController?
     
-    private var movie: MovieViewModel
+    private var movie: MovieViewModel!
     
     init(navigationController: UINavigationController, movie: MovieViewModel) {
         self.navigationController = navigationController
@@ -30,4 +30,8 @@ class MovieDetailsCoordinator: Coordinator {
         self.movieDetailsViewController = movieDetailsViewController
     }
     
+    func stop() {
+        movieDetailsViewController = nil
+        movie = nil
+    }
 }

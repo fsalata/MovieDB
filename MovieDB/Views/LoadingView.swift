@@ -24,14 +24,14 @@ final class LoadingView: UIView {
     }
     
     // MARK - Private methods
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         self.addSubview(activityIndicator)
         
         activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }
     
-    fileprivate func setupView() {
+    private func setupView() {
         self.backgroundColor = .clear
     }
     

@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol MoviesViewModelDelegate: AnyObject {
+    func showMovieDetails(movie: MovieViewModel)
+}
+
 final class MoviesViewModel {
     var movies = [MovieViewModel]()
     var filteredMovies = [MovieViewModel]()
@@ -19,6 +23,8 @@ final class MoviesViewModel {
     var totalPages: Int?
     
     var error: ServiceError?
+    
+    weak var delegate: MoviesViewModelDelegate?
     
     private var moviesService: MoviesService
     private var genresService: MovieGenresService
@@ -42,7 +48,7 @@ final class MoviesViewModel {
         }
     }
     
-    fileprivate func fetchGenres() {
+    private func fetchGenres() {
         dispatchGroup.enter()
         
         genresService.fetchMovieGenres { [weak self] result in
@@ -50,6 +56,7 @@ final class MoviesViewModel {
             
             switch result {
             case .success(let data):
+                guard let data = data else { return }
                 self.genres = data.genres
                 self.error = nil
                 
@@ -63,7 +70,7 @@ final class MoviesViewModel {
         }
     }
     
-    fileprivate func fetchMovies(page: Int) {
+    private func fetchMovies(page: Int) {
         dispatchGroup.enter()
         
         moviesService.fetchUpcomingMovies(page: page) { [weak self]  result in
@@ -71,6 +78,7 @@ final class MoviesViewModel {
             
             switch result {
             case .success(let data):
+                guard let data = data else { return }
                 if let results = data.results {
                     self.totalPages = data.totalPages
                     
@@ -89,5 +97,9 @@ final class MoviesViewModel {
                 self.dispatchGroup.leave()
             }
         }
+    }
+    
+    func showMovieDetails(movie: MovieViewModel) {
+        delegate?.showMovieDetails(movie: movie)
     }
 }

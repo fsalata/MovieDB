@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00B5DFAE2354F35F0092E001 /* UITableViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B5DFAD2354F35F0092E001 /* UITableViewHelper.swift */; };
 		00E0809022281B070083773B /* MovieViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E0808F22281B070083773B /* MovieViewModelTests.swift */; };
 		00E446DE222FE8F000221623 /* MoviesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E446DD222FE8F000221623 /* MoviesViewModelTests.swift */; };
 		00E446E0222FEE2600221623 /* MovieGenresServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E446DF222FEE2600221623 /* MovieGenresServiceTests.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		006F7087221C875D00574166 /* MovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F708B221C875D00574166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00B5DFAD2354F35F0092E001 /* UITableViewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewHelper.swift; sourceTree = "<group>"; };
 		00E0808F22281B070083773B /* MovieViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModelTests.swift; sourceTree = "<group>"; };
 		00E446DD222FE8F000221623 /* MoviesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModelTests.swift; sourceTree = "<group>"; };
 		00E446DF222FEE2600221623 /* MovieGenresServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieGenresServiceTests.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				E467A60321B32B23000521B7 /* DataLoading.swift */,
 				E437F6C921C2A5AA00B8744C /* UIImageExtension.swift */,
 				E4CF34BC21D4E56100413BB0 /* NavigationController.swift */,
+				00B5DFAD2354F35F0092E001 /* UITableViewHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				E4771FB821D155A3008402E9 /* MoviesViewController.swift in Sources */,
 				184E68B52208795F007EB45B /* MoviesViewModel.swift in Sources */,
 				E4949C8D21C4561400BF1B5D /* MovieGenresService.swift in Sources */,
+				00B5DFAE2354F35F0092E001 /* UITableViewHelper.swift in Sources */,
 				E4F590A421E0C21D004802D5 /* ErrorView.swift in Sources */,
 				E467A60421B32B23000521B7 /* DataLoading.swift in Sources */,
 				E467A60621B32E4A000521B7 /* API.swift in Sources */,

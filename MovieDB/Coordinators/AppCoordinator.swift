@@ -24,4 +24,8 @@ class AppCoordinator: Coordinator {
         
         self.moviesCoordinator = moviesCoordinator
     }
+    
+    func stop() {
+        moviesCoordinator = nil
+    }
 }

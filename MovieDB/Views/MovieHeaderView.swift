@@ -99,11 +99,11 @@ final class MovieHeaderView: UIView {
     
     // MARK: private methods
     
-    fileprivate func setupView() {
+    private func setupView() {
         self.clipsToBounds = true
     }
     
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         self.addSubview(backdrop)
         self.addSubview(movieInfo)
         

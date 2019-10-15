@@ -12,7 +12,7 @@ final class MoviesService {
     private let client = WebClient()
 
     @discardableResult
-    func fetchUpcomingMovies(page: Int?, completion: @escaping (Result<MoviesModel, ServiceError>) -> ()) -> URLSessionDataTask? {
+    func fetchUpcomingMovies(page: Int?, completion: @escaping (Result<MoviesModel?, ServiceError>) -> ()) -> URLSessionDataTask? {
         
         var parameters: JSON = [String: Any]()
         
@@ -24,13 +24,8 @@ final class MoviesService {
             
             switch result {
             case .success(let data):
-                do {
-                    let moviesList = try JSONDecoder().decode(MoviesModel.self, from: data)
-                    
-                    completion(Result.success(moviesList))
-                } catch let error {
-                    print(error)
-                }
+                let moviesList = try? JSONDecoder().decode(MoviesModel.self, from: data)
+                completion(Result.success(moviesList))
             case .failure(let error):
                 completion(Result.failure(error))
             }

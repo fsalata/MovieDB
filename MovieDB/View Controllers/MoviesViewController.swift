@@ -8,20 +8,14 @@
 
 import UIKit
 
-protocol MoviesViewControllerDelegate: class {
-    func showMovieDetails(movie: MovieViewModel)
-}
-
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
-    var moviesViewModel = MoviesViewModel()
+    var moviesViewModel: MoviesViewModel!
     
     let loadingMore = UIActivityIndicatorView()
     
     let searchController = UISearchController(searchResultsController: nil)
-    
-    weak var delegate: MoviesViewControllerDelegate?
     
     var isLoadingMore = false {
         didSet {
@@ -37,7 +31,6 @@ final class MoviesViewController: UIViewController, DataLoading {
     }
     
     // MARK - Data loading protocol
-    
     var loadingView: LoadingView = LoadingView()
     var errorView: ErrorView = ErrorView()
     
@@ -46,6 +39,16 @@ final class MoviesViewController: UIViewController, DataLoading {
             update()
             tableView.reloadData()
         }
+    }
+    
+    init(viewModel: MoviesViewModel) {
+        moviesViewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(nibName: nil, bundle: nil)
     }
     
     override func loadView() {
@@ -64,7 +67,7 @@ final class MoviesViewController: UIViewController, DataLoading {
     
     // MARK: View and Layout
     
-    fileprivate func setupLayout() {
+    private func setupLayout() {
         tableView = UITableView(frame: self.view.frame)
         
         self.view.addSubview(tableView)
@@ -120,7 +123,9 @@ final class MoviesViewController: UIViewController, DataLoading {
             self.state = .loading
         }
         
-        moviesViewModel.fetch { [unowned self] in
+        moviesViewModel.fetch { [weak self] in
+            guard let self = self else { return }
+            
             self.isLoadingMore = false
             
             guard self.moviesViewModel.error == nil else {
@@ -168,18 +173,20 @@ extension MoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        
-        var movie: MovieViewModel
-        
-        if isFiltering() {
-            movie = moviesViewModel.filteredMovies[indexPath.row]
+        let cell = tableView.dequeueCell(of: MovieCell.self, for: indexPath) { [weak self] cell in
+            guard let self = self else { return }
+            
+            var movie: MovieViewModel
+
+            if self.isFiltering() {
+                movie = self.moviesViewModel.filteredMovies[indexPath.row]
+            }
+            else {
+                movie = self.moviesViewModel.movies[indexPath.row]
+            }
+
+            cell.movie = movie
         }
-        else {
-            movie = moviesViewModel.movies[indexPath.row]
-        }
-        
-        cell.movie = movie
         
         return cell
     }
@@ -189,7 +196,7 @@ extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = moviesViewModel.movies[indexPath.row]
         
-        delegate?.showMovieDetails(movie: movie)
+        moviesViewModel.showMovieDetails(movie: movie)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
