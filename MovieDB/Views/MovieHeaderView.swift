@@ -146,12 +146,11 @@ extension MovieHeaderView: SDWebImageManagerDelegate {
     func imageManager(_ imageManager: SDWebImageManager, transformDownloadedImage image: UIImage?, with imageURL: URL?) -> UIImage? {
         guard let imageURL: URL = imageURL , let image : UIImage = image else { return nil }
         
-        let posterSize = poster.frame.size
-        let backdropSize = backdrop.frame.size
-        
         if imageURL.absoluteString.contains(Domains.backdropURL) {
+            let backdropSize = backdrop.frame.size
             return resizeMovie(image: image, to: backdropSize)
         } else if imageURL.absoluteString.contains(Domains.posterURL) {
+            let posterSize = poster.frame.size
             return resizeMovie(image: image, to: posterSize)
         }
         
