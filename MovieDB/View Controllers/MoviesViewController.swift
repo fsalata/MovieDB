@@ -81,8 +81,6 @@ final class MoviesViewController: UIViewController, DataLoading {
     }
     
     private func setupView() {
-        title = "Upcoming movies"
-        
         let backgroundColor = UIColor(r: 2, g: 34, b: 67)
         
         loadingView.backgroundColor = backgroundColor
@@ -105,6 +103,8 @@ final class MoviesViewController: UIViewController, DataLoading {
         
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+        tableView.setContentOffset(.init(x: 0, y: searchController.searchBar.frame.height), animated: false)
+        
         loadingMore.style = UIActivityIndicatorView.Style.white
         loadingMore.frame = .init(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
         tableView.tableFooterView = self.loadingMore
@@ -112,7 +112,7 @@ final class MoviesViewController: UIViewController, DataLoading {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
-        navigationItem.searchController = searchController
+        moviesViewModel.setupSearchController(searchController)
         definesPresentationContext = true
     }
     

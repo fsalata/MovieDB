@@ -35,16 +35,10 @@ final class MovieDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupView()
-        
         movieHeaderView.fillWith(movie)
     }
     
     // MARK: View and Layout
-    
-    private func setupView() {
-        title = "Movie details"
-    }
     
     private func setupLayout() {
         self.view.addSubview(scrollView)
