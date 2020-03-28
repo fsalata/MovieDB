@@ -25,6 +25,7 @@ class MoviesFlowController: FlowViewController {
 extension MoviesFlowController: MoviesViewModelDelegate {
     func setupSearchController(_ viewModel: MoviesViewModel, searchController: UISearchController) {
         navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     func showMovieDetails(movie: MovieViewModel) {

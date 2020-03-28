@@ -65,6 +65,10 @@ final class MoviesViewController: UIViewController, DataLoading {
         fetchMovies(loading: true)
     }
     
+    override func viewDidLayoutSubviews() {
+        moviesViewModel.setupSearchController(searchController)
+    }
+    
     // MARK: View and Layout
     
     private func setupLayout() {
@@ -112,8 +116,6 @@ final class MoviesViewController: UIViewController, DataLoading {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
-        moviesViewModel.setupSearchController(searchController)
-        definesPresentationContext = true
     }
     
     // MARK: Private methods
