@@ -13,18 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    private var appCoordinator: AppCoordinator?
+    private var appFlowController: AppFlowController!
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        let navigationController = UINavigationController()
-        appCoordinator = AppCoordinator(navigationController: navigationController)
-        appCoordinator?.start()
-        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = navigationController
+        
+        appFlowController = AppFlowController(navigation: UINavigationController())
+        
+        window?.rootViewController = appFlowController
         window?.makeKeyAndVisible()
+        
+        appFlowController.start()
         
         return true
     }

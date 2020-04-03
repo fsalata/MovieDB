@@ -56,6 +56,7 @@ final class MoviesViewModel {
             
             switch result {
             case .success(let data):
+                guard let data = data else { return }
                 self.genres = data.genres
                 self.error = nil
                 
@@ -77,6 +78,7 @@ final class MoviesViewModel {
             
             switch result {
             case .success(let data):
+                guard let data = data else { return }
                 if let results = data.results {
                     self.totalPages = data.totalPages
                     

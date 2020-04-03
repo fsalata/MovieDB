@@ -66,6 +66,8 @@ final class MovieHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        SDWebImageManager.shared().delegate = self
+        
         setupView()
         
         setupLayout()
@@ -78,14 +80,14 @@ final class MovieHeaderView: UIView {
             backdrop.sd_setImage(with: backdropPath)
         }
         else {
-            backdrop.image = UIImage(named: "backdropPlaceholder")
+            backdrop.image = resizeMovie(image: UIImage(named: "backdropPlaceholder")!, to: backdrop.frame.size)
         }
         
         if let posterPath = movie.posterPath {
             poster.sd_setImage(with: posterPath)
         }
         else {
-            poster.image = UIImage(named: "backdropPlaceholder")
+            poster.image = resizeMovie(image: UIImage(named: "backdropPlaceholder")!, to: poster.frame.size)
         }
         
         title.text = movie.title
@@ -137,5 +139,37 @@ final class MovieHeaderView: UIView {
     
     override var intrinsicContentSize: CGSize {
         return self.frame.size
+    }
+}
+
+extension MovieHeaderView: SDWebImageManagerDelegate {
+    func imageManager(_ imageManager: SDWebImageManager, transformDownloadedImage image: UIImage?, with imageURL: URL?) -> UIImage? {
+        guard let imageURL: URL = imageURL , let image : UIImage = image else { return nil }
+        
+        if imageURL.absoluteString.contains(Domains.backdropURL) {
+            let backdropSize = backdrop.frame.size
+            return resizeMovie(image: image, to: backdropSize)
+        } else if imageURL.absoluteString.contains(Domains.posterURL) {
+            let posterSize = poster.frame.size
+            return resizeMovie(image: image, to: posterSize)
+        }
+        
+        return image
+    }
+    
+    private func resizeMovie(image: UIImage, to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, true, 0.0)
+        
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        
+        UIBezierPath(roundedRect: rect, cornerRadius: 5.0).addClip()
+        
+        image.draw(in: rect)
+        
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return result
     }
 }
