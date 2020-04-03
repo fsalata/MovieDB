@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MoviesViewControllerDelegate: AnyObject {
+    func setupSearchController(_ viewController: MoviesViewController, searchController: UISearchController)
+}
+
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
@@ -16,6 +20,8 @@ final class MoviesViewController: UIViewController, DataLoading {
     let loadingMore = UIActivityIndicatorView()
     
     let searchController = UISearchController(searchResultsController: nil)
+    
+    weak var delegate: MoviesViewControllerDelegate?
     
     var isLoadingMore = false {
         didSet {
@@ -65,6 +71,10 @@ final class MoviesViewController: UIViewController, DataLoading {
         fetchMovies(loading: true)
     }
     
+    override func viewDidLayoutSubviews() {
+        delegate?.setupSearchController(self, searchController: searchController)
+    }
+    
     // MARK: View and Layout
     
     private func setupLayout() {
@@ -81,8 +91,6 @@ final class MoviesViewController: UIViewController, DataLoading {
     }
     
     private func setupView() {
-        title = "Upcoming movies"
-        
         let backgroundColor = UIColor(r: 2, g: 34, b: 67)
         
         loadingView.backgroundColor = backgroundColor
@@ -105,6 +113,8 @@ final class MoviesViewController: UIViewController, DataLoading {
         
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+        tableView.setContentOffset(.init(x: 0, y: searchController.searchBar.frame.height), animated: false)
+        
         loadingMore.style = UIActivityIndicatorView.Style.white
         loadingMore.frame = .init(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
         tableView.tableFooterView = self.loadingMore
@@ -112,8 +122,6 @@ final class MoviesViewController: UIViewController, DataLoading {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
     }
     
     // MARK: Private methods
