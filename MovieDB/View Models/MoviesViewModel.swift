@@ -11,7 +11,6 @@ import UIKit
 
 protocol MoviesViewModelDelegate: AnyObject {
     func showMovieDetails(movie: MovieViewModel)
-    func setupSearchController(_ viewModel: MoviesViewModel, searchController: UISearchController)
 }
 
 final class MoviesViewModel {
@@ -102,9 +101,5 @@ final class MoviesViewModel {
     
     func showMovieDetails(movie: MovieViewModel) {
         delegate?.showMovieDetails(movie: movie)
-    }
-    
-    func setupSearchController(_ searchController: UISearchController) {
-        delegate?.setupSearchController(self, searchController: searchController)
     }
 }

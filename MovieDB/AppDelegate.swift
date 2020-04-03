@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        appFlowController = AppFlowController()
+        appFlowController = AppFlowController(navigation: UINavigationController())
         
         window?.rootViewController = appFlowController
         window?.makeKeyAndVisible()

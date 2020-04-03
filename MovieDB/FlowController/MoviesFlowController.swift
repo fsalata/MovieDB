@@ -15,6 +15,7 @@ class MoviesFlowController: FlowViewController {
         let moviesViewController = MoviesViewController(viewModel: viewModel)
         
         viewModel.delegate = self
+        moviesViewController.delegate = self
         
         add(moviesViewController)
         
@@ -23,16 +24,18 @@ class MoviesFlowController: FlowViewController {
 }
 
 extension MoviesFlowController: MoviesViewModelDelegate {
-    func setupSearchController(_ viewModel: MoviesViewModel, searchController: UISearchController) {
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-    }
-    
     func showMovieDetails(movie: MovieViewModel) {
         let movieDetailFlowController = MovieDetailsFlowControler(navigation: navigation, movie: movie)
         
         movieDetailFlowController.start()
         
         navigation.show(movieDetailFlowController, sender: self)
+    }
+}
+
+extension MoviesFlowController: MoviesViewControllerDelegate {
+    func setupSearchController(_ viewController: MoviesViewController, searchController: UISearchController) {
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
 }

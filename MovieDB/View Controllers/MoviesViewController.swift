@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MoviesViewControllerDelegate: AnyObject {
+    func setupSearchController(_ viewController: MoviesViewController, searchController: UISearchController)
+}
+
 final class MoviesViewController: UIViewController, DataLoading {
     var tableView: UITableView!
     
@@ -16,6 +20,8 @@ final class MoviesViewController: UIViewController, DataLoading {
     let loadingMore = UIActivityIndicatorView()
     
     let searchController = UISearchController(searchResultsController: nil)
+    
+    weak var delegate: MoviesViewControllerDelegate?
     
     var isLoadingMore = false {
         didSet {
@@ -66,7 +72,7 @@ final class MoviesViewController: UIViewController, DataLoading {
     }
     
     override func viewDidLayoutSubviews() {
-        moviesViewModel.setupSearchController(searchController)
+        delegate?.setupSearchController(self, searchController: searchController)
     }
     
     // MARK: View and Layout

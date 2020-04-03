@@ -8,10 +8,21 @@
 
 import UIKit
 
-class AppFlowController: UIViewController {
-    private let navigation = UINavigationController()
+class AppFlowController: UIViewController, FlowController {
+    var navigation: UINavigationController
+    
+    required init(navigation: UINavigationController) {
+        self.navigation = navigation
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func start() {
+        navigation = UINavigationController()
+        
         let moviesFlowController = MoviesFlowController(navigation: navigation)
         
         navigation.viewControllers = [moviesFlowController]
