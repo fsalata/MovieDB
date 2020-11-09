@@ -27,7 +27,7 @@ final class UpcomingMoviesCoordinator: Coordinator {
 }
 
 extension UpcomingMoviesCoordinator {
-    func showMovieDetails(movie: MovieViewModel) {
+    func presentMovieDetails(movie: MovieViewModel) {
         let movieDetailsViewModel = MovieDetailsViewModel(movie: movie)
         
         let movieDetailsCoordinator = MovieDetailsCoordinator(viewModel: movieDetailsViewModel, navigationController: navigationController)

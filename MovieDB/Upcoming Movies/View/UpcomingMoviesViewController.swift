@@ -17,22 +17,16 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
     var viewModel: UpcomingMoviesViewModel!
     
     var tableView = UITableView()
-    let loadingMore = UIActivityIndicatorView()
     let searchController = UISearchController(searchResultsController: nil)
     
     weak var delegate: UpcomingMoviesMoviesViewControllerDelegate?
     
-    var isLoadingMore = false {
-        didSet {
-            DispatchQueue.main.async {
-                if self.isLoadingMore {
-                    self.loadingMore.startAnimating()
-                }
-                else {
-                    self.loadingMore.stopAnimating()
-                }
-            }
-        }
+    private var searchBarIsEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
     }
     
     // MARK - Data loading protocol
@@ -51,6 +45,8 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
         self.coordinator = coordinator
         
         super.init(nibName: nil, bundle: nil)
+        
+        viewModel.delegate = self
     }
     
     @available(*, unavailable)
@@ -101,10 +97,6 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
         
         setupTableView(backgroundColor)
         
-        loadingMore.style = UIActivityIndicatorView.Style.white
-        loadingMore.frame = .init(x: 0, y: 0, width: self.tableView.frame.width, height: 44)
-        tableView.tableFooterView = self.loadingMore
-        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies"
@@ -115,6 +107,7 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
     private func setupTableView(_ backgroundColor: UIColor) {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.prefetchDataSource = self
         
         tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
         
@@ -136,25 +129,7 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
             self.state = .loading
         }
         
-        viewModel.fetch { [weak self] in
-            guard let self = self else { return }
-            
-            self.isLoadingMore = false
-            
-            guard self.viewModel.error == nil else {
-                let error = self.viewModel.error!
-                
-                DispatchQueue.main.async {
-                    self.showErrorView(message: error.localizedDescription)
-                }
-                
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.state = .loaded(data: self.viewModel.movies)
-            }
-        }
+        viewModel.fetchMovies()
     }
     
     private func showErrorView(message: String) {
@@ -162,13 +137,17 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
             self.state = .error(message)
         }
     }
-    
-    private func searchBarIsEmpty() -> Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+}
+
+extension UpcomingMoviesViewController: UpcomingMoviesViewModelDelegate {
+    func upcomingMoviesViewModelDidFetchMoviesSuccess(viewModel: UpcomingMoviesViewModel) {
+        DispatchQueue.main.async {
+            self.state = .loaded(data: self.viewModel.movies)
+        }
     }
     
-    private func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
+    func upcomingMoviesViewModel(viewModel: UpcomingMoviesViewModel, fetchMoviesFailedWithError error: NetworkError) {
+        self.showErrorView(message: error.localizedDescription)
     }
 }
 
@@ -178,7 +157,7 @@ extension UpcomingMoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
+        if isFiltering {
             return viewModel.filteredMovies.count
         }
         
@@ -191,7 +170,7 @@ extension UpcomingMoviesViewController: UITableViewDataSource {
             
             var movie: MovieViewModel
 
-            if self.isFiltering() {
+            if self.isFiltering {
                 movie = self.viewModel.filteredMovies[indexPath.row]
             }
             else {
@@ -209,22 +188,18 @@ extension UpcomingMoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = viewModel.movies[indexPath.row]
         
-        coordinator.showMovieDetails(movie: movie)
+        coordinator.presentMovieDetails(movie: movie)
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let totalPages = self.viewModel.totalPages, !isLoadingMore else { return }
-        
-        if indexPath.row == self.viewModel.movies.count - 5 && viewModel.currentPage <= totalPages {
-            isLoadingMore = true
-            viewModel.currentPage = viewModel.currentPage + 1
-            
-            fetchMovies(loading: false)
-            
-            if viewModel.currentPage == totalPages {
-                tableView.tableFooterView = UIView(frame: CGRect.zero)
-            }
+}
+
+extension UpcomingMoviesViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard case ViewState.loaded(_) = state,
+              (indexPaths.contains { $0.row >= self.viewModel.movies.count - 1 }) else {
+            return
         }
+        
+        viewModel.fetchMovies()
     }
 }
 

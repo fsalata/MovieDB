@@ -12,8 +12,8 @@ import UIKit
 struct MovieViewModel {
     let title: String
     let releaseDate: String
-    let backdropPath: URL?
-    let posterPath: URL?
+    let backdropURL: URL?
+    let posterURL: URL?
     let genres: String
     let overview: String
     
@@ -23,9 +23,9 @@ struct MovieViewModel {
         
         self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate)
         
-        self.backdropPath = MovieViewModel.formatImageURL(path: movie.backdropPath, with: Domains.backdropURL)
+        self.backdropURL = MovieViewModel.formatImageURL(path: movie.backdropPath, with: Domains.backdropURL)
         
-        self.posterPath = MovieViewModel.formatImageURL(path: movie.posterPath, with: Domains.posterURL)
+        self.posterURL = MovieViewModel.formatImageURL(path: movie.posterPath, with: Domains.posterURL)
         
         self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres)
         

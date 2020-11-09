@@ -73,15 +73,15 @@ final class MovieHeaderView: UIView {
     // MARK: private methods
     
     func fillWith(_ movie: MovieViewModel) {
-        if let backdropPath = movie.backdropPath {
-            backdrop.load(url: backdropPath, placeholder: UIView(), cache: Cache.shared)
+        if let backdropURL = movie.backdropURL {
+            backdrop.load(url: backdropURL, placeholder: UIView(), cache: Cache.shared)
         }
         else {
             backdrop.image = resizeMovie(image: UIImage(named: "backdropPlaceholder")!, to: backdrop.frame.size)
         }
         
-        if let posterPath = movie.posterPath {
-            poster.load(url: posterPath, placeholder: UIView(), cache: Cache.shared)
+        if let posterURL = movie.posterURL {
+            poster.load(url: posterURL, placeholder: UIView(), cache: Cache.shared)
         }
         else {
             poster.image = resizeMovie(image: UIImage(named: "backdropPlaceholder")!, to: poster.frame.size)
