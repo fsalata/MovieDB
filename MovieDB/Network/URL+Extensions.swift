@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias JSON = [String: Any]
+
 extension URL {
     init?(baseUrl: String, path: String, parameters: JSON?, method: RequestMethod) {
         var components = URLComponents(string: baseUrl)!

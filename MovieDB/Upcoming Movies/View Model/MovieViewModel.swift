@@ -21,47 +21,14 @@ struct MovieViewModel {
         
         self.title = movie.title
         
-        self.releaseDate = MovieViewModel.formatDateFrom(string: movie.releaseDate)
+        self.releaseDate = movie.getFormattedReleaseDate()
         
-        self.backdropURL = MovieViewModel.formatImageURL(path: movie.backdropPath, with: Domains.backdropURL)
+        self.backdropURL = movie.getBackdropUrl()
         
-        self.posterURL = MovieViewModel.formatImageURL(path: movie.posterPath, with: Domains.posterURL)
+        self.posterURL = movie.getPosterUrl()
         
-        self.genres = MovieViewModel.formatGenres(movie.genreIDS, genres: genres)
+        self.genres = movie.getGenresNames(from: genres)
         
         self.overview = movie.overview ?? ""
-    }
-    
-    private static func formatImageURL(path: String?, with domain: String) -> URL? {
-        guard let path = path else {
-            return nil
-        }
-        
-        let url = URL(string: domain + path)
-        
-        return url
-    }
-    
-    private static var dateFormatter = DateFormatter()
-    private static func formatDateFrom(string dateString: String?) -> String {
-        guard let dateString = dateString else { return "" }
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let date = dateFormatter.date(from: dateString)
-        
-        dateFormatter.dateFormat = "dd/MM/yyyy"
-        
-        return dateFormatter.string(from: date!)
-    }
-    
-   private static func formatGenres(_ genresIDS: [Int]?, genres: [Genre]) -> String {
-        guard let genresIDS = genresIDS else { return "" }
-    
-        let genres = genresIDS.compactMap{ id in
-            return genres.first(where: { $0.id == id })?.name ?? nil
-        }
-        
-        return genres.joined(separator: ", ")
     }
 }

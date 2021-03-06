@@ -8,10 +8,8 @@
 
 import Foundation
 
-typealias JSON = [String: Any]
-
 class APIClient {
-    private var session: URLSession
+    private var session: URLSessionProtocol
     private var api: APIProtocol
     private var sessionDataTask: URLSessionDataTask?
     
@@ -33,7 +31,7 @@ class APIClient {
                     completion(.failure(NetworkError(error)))
                 }
                 else if let response = response as? HTTPURLResponse,
-                        !(200..<300).contains(response.statusCode) {
+                        !(200..<300 ~= response.statusCode) {
                     completion(.failure(NetworkError(response)))
                 } else {
                     guard let data = data else {

@@ -47,3 +47,53 @@ struct Movie: Codable {
         case video
     }
 }
+
+extension Movie {
+    func getFormattedReleaseDate() -> String {
+        return formatDateFrom(string: releaseDate)
+    }
+    
+    func getGenresNames(from genres: [Genre]) -> String {
+        guard let genreIDS = genreIDS else { return "" }
+        
+        let genres = genreIDS.compactMap{ id in
+            return genres.first(where: { $0.id == id })?.name
+        }
+        
+        return genres.joined(separator: ", ")
+    }
+    
+    func getPosterUrl(urlDomain: String = Domains.posterURL) -> URL? {
+        return getImageURL(path: posterPath, with: urlDomain)
+    }
+    
+    func getBackdropUrl(urlDomain: String = Domains.backdropURL) -> URL? {
+        return getImageURL(path: backdropPath, with: urlDomain)
+    }
+    
+    private func getImageURL(path: String?, with domain: String) -> URL? {
+        guard let path = path else {
+            return nil
+        }
+        
+        let url = URL(string: domain + path)
+        
+        return url
+    }
+    
+    private static let dateFormatter = DateFormatter()
+    
+    private func formatDateFrom(string dateString: String?) -> String {
+        guard let dateString = dateString else { return "" }
+        
+        Movie.dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = Movie.dateFormatter.date(from: dateString) {
+            Movie.dateFormatter.dateFormat = "dd/MM/yyyy"
+            
+            return Movie.dateFormatter.string(from: date)
+        }
+        
+        return ""
+    }
+}

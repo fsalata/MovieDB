@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class GenresModel: Codable {
+struct GenresModel: Codable {
     let genres: [Genre]
 }
 
