@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kuv-q6-zki">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kuv-q6-zki">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,16 +24,16 @@
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="-564.46776611694156"/>
         </scene>
-        <!--Movies View Controller-->
+        <!--Upcoming Movies View Controller-->
         <scene sceneID="0i7-KW-mbO">
             <objects>
-                <viewController id="Url-bg-SPy" customClass="MoviesViewController" customModule="MovieDB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Url-bg-SPy" customClass="UpcomingMoviesViewController" customModule="MovieDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4YA-JZ-94z">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bAl-jK-nKs">
-                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <color key="backgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ofy-fd-iZo">
                                     <size key="itemSize" width="50" height="50"/>
@@ -48,6 +44,7 @@
                                 <cells/>
                             </collectionView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="I7t-5f-bjw"/>
                         <color key="backgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="bAl-jK-nKs" firstAttribute="trailing" secondItem="I7t-5f-bjw" secondAttribute="trailing" id="Ktm-fg-DsM"/>
@@ -55,7 +52,6 @@
                             <constraint firstItem="bAl-jK-nKs" firstAttribute="top" secondItem="I7t-5f-bjw" secondAttribute="top" id="hzK-A5-tQe"/>
                             <constraint firstItem="bAl-jK-nKs" firstAttribute="bottom" secondItem="I7t-5f-bjw" secondAttribute="bottom" id="nZC-a3-xEm"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="I7t-5f-bjw"/>
                     </view>
                     <navigationItem key="navigationItem" id="xZK-zL-Kgx"/>
                     <connections>
@@ -72,17 +68,17 @@
             <objects>
                 <viewController id="VOF-ax-ZGN" customClass="MovieDetailsViewController" customModule="MovieDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XVC-iQ-3au">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUZ-rM-lZR">
-                                <rect key="frame" x="0.0" y="88" width="375" height="690"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QNB-O4-k7a">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="352.33333333333331"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Bj9-U9-VYX" customClass="MovieHeaderView" customModule="MovieDB" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="280"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="483.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderRadius">
@@ -91,16 +87,16 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9hQ-Nx-czh" userLabel="Overview">
-                                                <rect key="frame" x="0.0" y="280" width="375" height="72.333333333333314"/>
+                                                <rect key="frame" x="0.0" y="483.5" width="600" height="72.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Overview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bV7-mZ-LmJ">
-                                                        <rect key="frame" x="15" y="15" width="345" height="19"/>
+                                                        <rect key="frame" x="15" y="15" width="570" height="19"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6RX-pE-GHc">
-                                                        <rect key="frame" x="15" y="42" width="345" height="15.333333333333336"/>
+                                                        <rect key="frame" x="15" y="42" width="570" height="15.5"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                                                         <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -140,6 +136,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ko1-uD-ekx"/>
                         <color key="backgroundColor" red="0.1647058824" green="0.1647058824" blue="0.1647058824" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="oUZ-rM-lZR" firstAttribute="top" secondItem="Ko1-uD-ekx" secondAttribute="top" id="1yh-4s-4bZ"/>
@@ -147,7 +144,6 @@
                             <constraint firstItem="oUZ-rM-lZR" firstAttribute="leading" secondItem="Ko1-uD-ekx" secondAttribute="leading" id="MkW-mL-f6u"/>
                             <constraint firstItem="oUZ-rM-lZR" firstAttribute="trailing" secondItem="Ko1-uD-ekx" secondAttribute="trailing" id="Xgq-7S-Qne"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ko1-uD-ekx"/>
                     </view>
                     <navigationItem key="navigationItem" title="Movie Details" id="9eg-eu-UjD"/>
                     <connections>
