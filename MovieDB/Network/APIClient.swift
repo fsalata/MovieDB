@@ -13,7 +13,7 @@ class APIClient {
     private var session: URLSessionProtocol
     private var api: APIProtocol
     
-    init(session: URLSession = URLSession.shared,
+    init(session: URLSessionProtocol = URLSession.shared,
          api: APIProtocol = API()) {
         self.session = session
         self.api = api
@@ -26,8 +26,11 @@ class APIClient {
         
         urlRequest.allHTTPHeaderFields = target.header
         
-        return session.dataTaskPublisher(for: urlRequest)
+        return session.erasedDataTaskPublisher(for: urlRequest)
             .retry(1)
+            .mapError { error in
+                return APIError(error)
+            }
             .debugResponse(request: urlRequest)
             .extractData()
             .decode()

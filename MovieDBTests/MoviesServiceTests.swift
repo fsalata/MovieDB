@@ -10,53 +10,53 @@ import XCTest
 @testable import MovieDB
 
 class MoviesServiceTests: XCTestCase {
-    var moviesService: MoviesService?
-
-    override func setUp() {
-        self.moviesService = MoviesService()
-    }
-
-    override func tearDown() {
-        self.moviesService = nil
-    }
-
-    func testFetchMoviesSuccess() {
-        let expectation = XCTestExpectation(description: "Movie list downloaded")
-        
-        self.moviesService?.fetchUpcomingMovies(page: nil, completion: { result in
-            switch result {
-            case .success(let data):
-                XCTAssertNotNil(data.results, "No movie downloaded")
-                expectation.fulfill()
-                
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            }
-        })
-        
-        wait(for: [expectation], timeout: 10.0)
-    }
-
-    func testFetchMovieByPageSuccess() {
-        let expectation = XCTestExpectation(description: "Movie list downloaded")
-        
-        let currentPage = 3
-        
-        self.moviesService?.fetchUpcomingMovies(page: currentPage, completion: { result in
-            switch result {
-            case .success(let data):
-                XCTAssertNotNil(data.results, "No movie downloaded")
-                XCTAssertEqual(data.page, currentPage, "Wrong page")
-                expectation.fulfill()
-                
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-                expectation.fulfill()
-            }
-        })
-        
-        wait(for: [expectation], timeout: 10.0)
-    }
+//    var moviesService: MoviesService?
+//
+//    override func setUp() {
+//        self.moviesService = MoviesService()
+//    }
+//
+//    override func tearDown() {
+//        self.moviesService = nil
+//    }
+//
+//    func testFetchMoviesSuccess() {
+//        let expectation = XCTestExpectation(description: "Movie list downloaded")
+//        
+//        self.moviesService?.fetchUpcomingMovies(page: nil, completion: { result in
+//            switch result {
+//            case .success(let data):
+//                XCTAssertNotNil(data.results, "No movie downloaded")
+//                expectation.fulfill()
+//                
+//            case .failure(let error):
+//                XCTFail(error.localizedDescription)
+//                expectation.fulfill()
+//            }
+//        })
+//        
+//        wait(for: [expectation], timeout: 10.0)
+//    }
+//
+//    func testFetchMovieByPageSuccess() {
+//        let expectation = XCTestExpectation(description: "Movie list downloaded")
+//        
+//        let currentPage = 3
+//        
+//        self.moviesService?.fetchUpcomingMovies(page: currentPage, completion: { result in
+//            switch result {
+//            case .success(let data):
+//                XCTAssertNotNil(data.results, "No movie downloaded")
+//                XCTAssertEqual(data.page, currentPage, "Wrong page")
+//                expectation.fulfill()
+//                
+//            case .failure(let error):
+//                XCTFail(error.localizedDescription)
+//                expectation.fulfill()
+//            }
+//        })
+//        
+//        wait(for: [expectation], timeout: 10.0)
+//    }
 
 }

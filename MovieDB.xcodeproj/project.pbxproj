@@ -11,6 +11,9 @@
 		0013E070256FC9D40029AFD1 /* Publisher+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0013E06F256FC9D40029AFD1 /* Publisher+Extensions.swift */; };
 		00502004255581B6002FBD25 /* MovieDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00502003255581B6002FBD25 /* MovieDetailsCoordinator.swift */; };
 		0050200825558E01002FBD25 /* MovieDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0050200725558E01002FBD25 /* MovieDetailsViewModel.swift */; };
+		0057131225F3E02A00E089EB /* URLSessionSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057131125F3E02A00E089EB /* URLSessionSpy.swift */; };
+		0057131A25F3EDAD00E089EB /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057131925F3EDAD00E089EB /* Mocks.swift */; };
+		0057132025F3EFDE00E089EB /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057131F25F3EFDE00E089EB /* APIClientTests.swift */; };
 		00785369255579C100148A5C /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00785368255579C100148A5C /* Cache.swift */; };
 		00882DBE25556F940057227A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00882DAD25556F940057227A /* AppCoordinator.swift */; };
 		00882DBF25556F940057227A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00882DAE25556F940057227A /* Coordinator.swift */; };
@@ -72,6 +75,9 @@
 		0013E06F256FC9D40029AFD1 /* Publisher+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extensions.swift"; sourceTree = "<group>"; };
 		00502003255581B6002FBD25 /* MovieDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsCoordinator.swift; sourceTree = "<group>"; };
 		0050200725558E01002FBD25 /* MovieDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModel.swift; sourceTree = "<group>"; };
+		0057131125F3E02A00E089EB /* URLSessionSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionSpy.swift; sourceTree = "<group>"; };
+		0057131925F3EDAD00E089EB /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		0057131F25F3EFDE00E089EB /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		006F7087221C875D00574166 /* MovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F708B221C875D00574166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00785368255579C100148A5C /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -140,9 +146,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0057131025F3E01300E089EB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0057131F25F3EFDE00E089EB /* APIClientTests.swift */,
+				0057131125F3E02A00E089EB /* URLSessionSpy.swift */,
+				0057131925F3EDAD00E089EB /* Mocks.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		006F7088221C875D00574166 /* MovieDBTests */ = {
 			isa = PBXGroup;
 			children = (
+				0057131025F3E01300E089EB /* Network */,
 				006F708B221C875D00574166 /* Info.plist */,
 				00E0808F22281B070083773B /* MovieViewModelTests.swift */,
 				00E446DD222FE8F000221623 /* MoviesViewModelTests.swift */,
@@ -487,7 +504,10 @@
 				00E0809022281B070083773B /* MovieViewModelTests.swift in Sources */,
 				00E446E0222FEE2600221623 /* MovieGenresServiceTests.swift in Sources */,
 				00E446E2222FEF8F00221623 /* MoviesServiceTests.swift in Sources */,
+				0057132025F3EFDE00E089EB /* APIClientTests.swift in Sources */,
+				0057131A25F3EDAD00E089EB /* Mocks.swift in Sources */,
 				00E446DE222FE8F000221623 /* MoviesViewModelTests.swift in Sources */,
+				0057131225F3E02A00E089EB /* URLSessionSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

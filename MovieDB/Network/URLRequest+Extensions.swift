@@ -12,6 +12,7 @@ extension URLRequest {
     init(baseURL: String, target: ServiceTargetProtocol) throws {
         var parameters = target.parameters ?? [:]
         
+        //TODO: fix api key injection
         parameters["api_key"] = ApiKey.value
         
         guard let url = URL(baseUrl: baseURL, path: target.path, parameters: parameters, method: target.method) else {

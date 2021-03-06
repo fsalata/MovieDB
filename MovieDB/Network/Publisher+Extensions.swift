@@ -15,7 +15,7 @@ extension Publisher where Output == URLResponseType {
     func extractData() -> Publishers.TryMap<Self, Data> {
         tryMap { data, response in
             if let response = response as? HTTPURLResponse,
-               !(200..<300).contains(response.statusCode) {
+               !(200..<300 ~= response.statusCode) {
                 throw APIError(response)
             }
             

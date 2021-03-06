@@ -11,42 +11,42 @@ import XCTest
 
 class MoviesViewModelTests: XCTestCase {
     
-    var moviesViewModel: MoviesViewModel?
-
-    override func setUp() {
-        self.moviesViewModel = MoviesViewModel()
-    }
-
-    override func tearDown() {
-        self.moviesViewModel = nil
-    }
-
-    func testFetchMoviesSuccess() {
-        let expectation = XCTestExpectation(description: "Movie genres downloaded")
-        
-        self.moviesViewModel?.fetch {
-            XCTAssertNotNil(self.moviesViewModel?.genres, "no genres was downloaded")
-            XCTAssertNotNil(self.moviesViewModel?.movies, "no movie was downloaded")
-            
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 10.0)
-    }
-    
-    func testFetchMoviesWithPageSuccess() {
-        self.moviesViewModel?.currentPage = 3
-        
-        let expectation = XCTestExpectation(description: "Movie genres downloaded")
-        
-        self.moviesViewModel?.fetch {
-            XCTAssertNotNil(self.moviesViewModel?.genres, "no genres was downloaded")
-            XCTAssertNotNil(self.moviesViewModel?.movies, "no movie was downloaded")
-            
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 10.0)
-    }
+//    var moviesViewModel: MoviesViewModel?
+//
+//    override func setUp() {
+//        self.moviesViewModel = MoviesViewModel()
+//    }
+//
+//    override func tearDown() {
+//        self.moviesViewModel = nil
+//    }
+//
+//    func testFetchMoviesSuccess() {
+//        let expectation = XCTestExpectation(description: "Movie genres downloaded")
+//        
+//        self.moviesViewModel?.fetch {
+//            XCTAssertNotNil(self.moviesViewModel?.genres, "no genres was downloaded")
+//            XCTAssertNotNil(self.moviesViewModel?.movies, "no movie was downloaded")
+//            
+//            expectation.fulfill()
+//        }
+//        
+//        wait(for: [expectation], timeout: 10.0)
+//    }
+//    
+//    func testFetchMoviesWithPageSuccess() {
+//        self.moviesViewModel?.currentPage = 3
+//        
+//        let expectation = XCTestExpectation(description: "Movie genres downloaded")
+//        
+//        self.moviesViewModel?.fetch {
+//            XCTAssertNotNil(self.moviesViewModel?.genres, "no genres was downloaded")
+//            XCTAssertNotNil(self.moviesViewModel?.movies, "no movie was downloaded")
+//            
+//            expectation.fulfill()
+//        }
+//        
+//        wait(for: [expectation], timeout: 10.0)
+//    }
 
 }
