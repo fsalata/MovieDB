@@ -13,15 +13,8 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
     var viewModel: UpcomingMoviesViewModel!
     
     var tableView = UITableView()
-    let searchController = UISearchController(searchResultsController: nil)
     
-    private var searchBarIsEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    private var isFiltering: Bool {
-        return searchController.isActive && !searchBarIsEmpty
-    }
+    var dataSource: UITableViewDiffableDataSource<Int, MovieViewModel>!
     
     // MARK - Data loading protocol
     var loadingView: LoadingView = LoadingView()
@@ -30,7 +23,7 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
     var state: ViewState<[MovieViewModel]> = .loading {
         didSet {
             update()
-            tableView.reloadData()
+            refreshDataSource()
         }
     }
     
@@ -86,20 +79,29 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
         errorView.button.addTarget(self, action: #selector(fetchMovies(loading:)), for: .touchUpInside)
         
         setupTableView(backgroundColor)
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Movies"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
     }
     
     private func setupTableView(_ backgroundColor: UIColor) {
-        tableView.dataSource = self
         tableView.delegate = self
         tableView.prefetchDataSource = self
         
-        tableView.register(MovieCell.self, forCellReuseIdentifier: "MovieCell")
+        tableView.register(MovieCell.self, forCellReuseIdentifier: String(describing: MovieCell.self))
+        
+        dataSource = UITableViewDiffableDataSource<Int, MovieViewModel>(tableView: tableView, cellProvider: {[weak self] tableView, indexPath, movie in
+            guard let self = self else { return  UITableViewCell()}
+            
+            let cell = tableView.dequeueCell(of: MovieCell.self, for: indexPath) { [weak self] cell in
+                guard let self = self else { return }
+                
+                var movie: MovieViewModel
+                
+                movie = self.viewModel.movies[indexPath.row]
+                
+                cell.movie = movie
+            }
+            
+            return cell
+        })
         
         tableView.backgroundColor = backgroundColor
         tableView.backgroundView?.backgroundColor = backgroundColor
@@ -109,8 +111,6 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
         tableView.estimatedRowHeight = 280.0
         
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        tableView.setContentOffset(.init(x: 0, y: searchController.searchBar.frame.height), animated: false)
     }
     
     // MARK: Private methods
@@ -120,6 +120,13 @@ final class UpcomingMoviesViewController: UIViewController, DataLoading {
         }
         
         viewModel.fetchMovies()
+    }
+    
+    private func refreshDataSource() {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, MovieViewModel>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(viewModel.movies)
+        dataSource.apply(snapshot)
     }
     
     private func showErrorView(message: String) {
@@ -141,39 +148,6 @@ extension UpcomingMoviesViewController: UpcomingMoviesViewModelDelegate {
     }
 }
 
-extension UpcomingMoviesViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering {
-            return viewModel.filteredMovies.count
-        }
-        
-        return viewModel.movies.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueCell(of: MovieCell.self, for: indexPath) { [weak self] cell in
-            guard let self = self else { return }
-            
-            var movie: MovieViewModel
-
-            if self.isFiltering {
-                movie = self.viewModel.filteredMovies[indexPath.row]
-            }
-            else {
-                movie = self.viewModel.movies[indexPath.row]
-            }
-
-            cell.movie = movie
-        }
-        
-        return cell
-    }
-}
-
 extension UpcomingMoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = viewModel.movies[indexPath.row]
@@ -190,17 +164,5 @@ extension UpcomingMoviesViewController: UITableViewDataSourcePrefetching {
         }
         
         viewModel.fetchMovies()
-    }
-}
-
-//  MARK: UISearchResultsUpdating
-extension UpcomingMoviesViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        viewModel.filteredMovies = viewModel.movies.filter({( movie: MovieViewModel) -> Bool in
-            return movie.title.lowercased().contains(searchController.searchBar.text!.lowercased())
-        })
-        
-        tableView.reloadData()
     }
 }

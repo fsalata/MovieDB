@@ -30,7 +30,7 @@ class APIClientTests: XCTestCase {
     }
     
 
-    func test_APIClientSuccess() {
+    func test_APIGetSuccess() {
         session.data = mockMovies()
         session.response = HTTPURLResponse(url: URL(string: MockAPI().baseURL)!, statusCode: 200, httpVersion: nil, headerFields: nil)
         
@@ -56,6 +56,39 @@ class APIClientTests: XCTestCase {
         XCTAssertEqual(request?.httpMethod, RequestMethod.GET.rawValue)
         XCTAssertNotNil(result)
         XCTAssertTrue(result?.results?.count == 2)
+    }
+    
+    func test_APIPostSuccess() {
+        session.data = Data()
+        session.response = HTTPURLResponse(url: URL(string: MockAPI().baseURL)!, statusCode: 201, httpVersion: nil, headerFields: nil)
+        
+        let publisher: AnyPublisher<URLResponse, APIError> = sut.request(target: MockGenresPostTarget.genres(genre: Genre(id: 1, name: "Ação")))
+        
+        var result: URLResponse?
+        
+        publisher
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                default:
+                    break
+                }
+            } receiveValue: { response in
+                result = response
+            }
+            .store(in: &subscribers)
+        
+        let request = session.dataTaskArgsRequest.first
+        
+        guard let result1 = result as? HTTPURLResponse else {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(request?.httpMethod, RequestMethod.POST.rawValue)
+        XCTAssertEqual(result1.statusCode, 201)
+        XCTAssertNotNil(result)
     }
     
     func test_APIClientNetworkFailure() {

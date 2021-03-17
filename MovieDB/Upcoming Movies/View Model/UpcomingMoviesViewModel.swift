@@ -19,7 +19,6 @@ final class UpcomingMoviesViewModel {
     private var genresService: MovieGenresService
     
     var movies = [MovieViewModel]()
-    var filteredMovies = [MovieViewModel]()
     
     var genres: [Genre]?
     

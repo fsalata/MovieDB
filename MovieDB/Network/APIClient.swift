@@ -39,5 +39,31 @@ class APIClient {
             }
             .eraseToAnyPublisher()
     }
+    
+    func request(target: ServiceTargetProtocol) -> AnyPublisher<URLResponse, APIError> {
+        guard var urlRequest = try? URLRequest(baseURL: api.baseURL, target: target) else {
+            return Fail(error: APIError.network(.badURL)).eraseToAnyPublisher()
+        }
+        
+        urlRequest.allHTTPHeaderFields = target.header
+        
+        return session.erasedDataTaskPublisher(for: urlRequest)
+            .retry(1)
+            .mapError { error in
+                return APIError(error)
+            }
+            .tryMap({ (_, response) in
+                if let response = response as? HTTPURLResponse,
+                   !(200..<300 ~= response.statusCode) {
+                    throw APIError(response)
+                }
+                
+                return response
+            })
+            .mapError { error in
+                return error as? APIError ?? APIError.unknown
+            }
+            .eraseToAnyPublisher()
+    }
 }
 

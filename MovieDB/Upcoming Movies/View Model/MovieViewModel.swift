@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-struct MovieViewModel {
-    var api: API
+struct MovieViewModel: Hashable {
+    let id: Int
     let title: String
     let releaseDate: String
     let backdropURL: URL?
@@ -18,8 +18,8 @@ struct MovieViewModel {
     let genres: String
     let overview: String
     
-    init(movie: Movie, genres: [Genre], api: API = API()) {
-        self.api = api
+    init(movie: Movie, genres: [Genre]) {
+        self.id = movie.id
         self.title = movie.title
         self.releaseDate = movie.getFormattedReleaseDate()
         self.backdropURL = movie.getBackdropUrl()
