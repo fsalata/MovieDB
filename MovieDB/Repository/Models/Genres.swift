@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class GenresModel: Codable {
+final class GenresResult: Codable {
     let genres: [Genre]
 }
 

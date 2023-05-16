@@ -7,7 +7,9 @@ import Foundation
 
 extension URLRequest {
     init(baseURL: String, target: ServiceTargetProtocol) throws {
-        let parameters = target.parameters
+        var parameters = target.parameters ?? [:]
+
+        parameters["api_key"] = ApiKey.value
 
         guard let url = URL(baseUrl: baseURL, path: target.path, parameters: parameters, method: target.method) else {
             throw APIError.Network.badURL

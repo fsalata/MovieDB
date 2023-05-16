@@ -32,12 +32,8 @@ extension GenresTarget {
     var parameters: JSON? {
         return nil
     }
-}
 
-final class MovieGenresService {
-    let client = APIClient()
-    
-    func fetchMoviesGenres() -> AnyPublisher<GenresModel, APIError> {
-        return client.request(target: GenresTarget.genres)
+    var body: Data? {
+        return nil
     }
 }

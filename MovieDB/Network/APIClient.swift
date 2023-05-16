@@ -30,7 +30,11 @@ class APIClient {
 
         if let response = response as? HTTPURLResponse,
            response.validationStatus != .success {
-            throw APIError(response)
+            let error = APIError(response)
+
+            debugResponse(request: urlRequest, data: data, response: response, error: error)
+            
+            throw error
         }
         
         debugResponse(request: urlRequest, data: data, response: response, error: nil)
