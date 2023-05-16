@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E488876A2A140A720054D474 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48887692A140A720054D474 /* API.swift */; };
+		E48887712A140A830054D474 /* Genres.swift in Sources */ = {isa = PBXBuildFile; fileRef = E488876C2A140A830054D474 /* Genres.swift */; };
+		E48887722A140A830054D474 /* Movies.swift in Sources */ = {isa = PBXBuildFile; fileRef = E488876D2A140A830054D474 /* Movies.swift */; };
+		E48887732A140A830054D474 /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E488876F2A140A830054D474 /* MoviesService.swift */; };
+		E48887742A140A830054D474 /* MovieGenresService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E48887702A140A830054D474 /* MovieGenresService.swift */; };
 		E4DAEBAF2A14080100ACBDD9 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA32A14080100ACBDD9 /* APIError.swift */; };
 		E4DAEBB02A14080100ACBDD9 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA42A14080100ACBDD9 /* APIClient.swift */; };
 		E4DAEBB12A14080100ACBDD9 /* URLRequest+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA62A14080100ACBDD9 /* URLRequest+Extensions.swift */; };
 		E4DAEBB22A14080100ACBDD9 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA72A14080100ACBDD9 /* URL+Extensions.swift */; };
 		E4DAEBB32A14080100ACBDD9 /* URLResponse+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA82A14080100ACBDD9 /* URLResponse+Extensions.swift */; };
 		E4DAEBB42A14080100ACBDD9 /* RequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBA92A14080100ACBDD9 /* RequestMethod.swift */; };
-		E4DAEBB52A14080100ACBDD9 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBAA2A14080100ACBDD9 /* API.swift */; };
 		E4DAEBB62A14080100ACBDD9 /* ServiceTargetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBAC2A14080100ACBDD9 /* ServiceTargetProtocol.swift */; };
 		E4DAEBB72A14080100ACBDD9 /* APIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBAD2A14080100ACBDD9 /* APIProtocol.swift */; };
 		E4DAEBB82A14080100ACBDD9 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DAEBAE2A14080100ACBDD9 /* URLSessionProtocol.swift */; };
@@ -45,13 +49,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E48887692A140A720054D474 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		E488876C2A140A830054D474 /* Genres.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genres.swift; sourceTree = "<group>"; };
+		E488876D2A140A830054D474 /* Movies.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Movies.swift; sourceTree = "<group>"; };
+		E488876F2A140A830054D474 /* MoviesService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviesService.swift; sourceTree = "<group>"; };
+		E48887702A140A830054D474 /* MovieGenresService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieGenresService.swift; sourceTree = "<group>"; };
 		E4DAEBA32A14080100ACBDD9 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		E4DAEBA42A14080100ACBDD9 /* APIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		E4DAEBA62A14080100ACBDD9 /* URLRequest+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+Extensions.swift"; sourceTree = "<group>"; };
 		E4DAEBA72A14080100ACBDD9 /* URL+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		E4DAEBA82A14080100ACBDD9 /* URLResponse+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLResponse+Extensions.swift"; sourceTree = "<group>"; };
 		E4DAEBA92A14080100ACBDD9 /* RequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMethod.swift; sourceTree = "<group>"; };
-		E4DAEBAA2A14080100ACBDD9 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		E4DAEBAC2A14080100ACBDD9 /* ServiceTargetProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTargetProtocol.swift; sourceTree = "<group>"; };
 		E4DAEBAD2A14080100ACBDD9 /* APIProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIProtocol.swift; sourceTree = "<group>"; };
 		E4DAEBAE2A14080100ACBDD9 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
@@ -93,13 +101,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E488876B2A140A830054D474 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E488876C2A140A830054D474 /* Genres.swift */,
+				E488876D2A140A830054D474 /* Movies.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E488876E2A140A830054D474 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				E488876F2A140A830054D474 /* MoviesService.swift */,
+				E48887702A140A830054D474 /* MovieGenresService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		E4DAEBA22A14080100ACBDD9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E4DAEBAA2A14080100ACBDD9 /* API.swift */,
 				E4DAEBA42A14080100ACBDD9 /* APIClient.swift */,
 				E4DAEBA92A14080100ACBDD9 /* RequestMethod.swift */,
 				E4DAEBA32A14080100ACBDD9 /* APIError.swift */,
+				E48887692A140A720054D474 /* API.swift */,
 				E4DAEBA52A14080100ACBDD9 /* Extensions */,
 				E4DAEBAB2A14080100ACBDD9 /* Protocols */,
 				E4DAEBB92A14081D00ACBDD9 /* APIKey */,
@@ -120,8 +146,8 @@
 		E4DAEBAB2A14080100ACBDD9 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				E4DAEBAC2A14080100ACBDD9 /* ServiceTargetProtocol.swift */,
 				E4DAEBAD2A14080100ACBDD9 /* APIProtocol.swift */,
+				E4DAEBAC2A14080100ACBDD9 /* ServiceTargetProtocol.swift */,
 				E4DAEBAE2A14080100ACBDD9 /* URLSessionProtocol.swift */,
 			);
 			path = Protocols;
@@ -159,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				E4DAEBA22A14080100ACBDD9 /* Network */,
+				E488876B2A140A830054D474 /* Model */,
+				E488876E2A140A830054D474 /* Service */,
 				E4F015F02A140742001C175B /* MovieDBApp.swift */,
 				E4F015F22A140742001C175B /* ContentView.swift */,
 				E4F015F42A140743001C175B /* Assets.xcassets */,
@@ -324,16 +352,20 @@
 			files = (
 				E4DAEBB82A14080100ACBDD9 /* URLSessionProtocol.swift in Sources */,
 				E4DAEBB42A14080100ACBDD9 /* RequestMethod.swift in Sources */,
+				E48887732A140A830054D474 /* MoviesService.swift in Sources */,
+				E48887742A140A830054D474 /* MovieGenresService.swift in Sources */,
 				E4DAEBBB2A14093400ACBDD9 /* APIKeys.swift in Sources */,
 				E4F015F32A140742001C175B /* ContentView.swift in Sources */,
 				E4DAEBB72A14080100ACBDD9 /* APIProtocol.swift in Sources */,
+				E48887722A140A830054D474 /* Movies.swift in Sources */,
 				E4DAEBB22A14080100ACBDD9 /* URL+Extensions.swift in Sources */,
 				E4F015F12A140742001C175B /* MovieDBApp.swift in Sources */,
 				E4DAEBB62A14080100ACBDD9 /* ServiceTargetProtocol.swift in Sources */,
+				E488876A2A140A720054D474 /* API.swift in Sources */,
+				E48887712A140A830054D474 /* Genres.swift in Sources */,
 				E4DAEBB32A14080100ACBDD9 /* URLResponse+Extensions.swift in Sources */,
 				E4DAEBAF2A14080100ACBDD9 /* APIError.swift in Sources */,
 				E4DAEBB12A14080100ACBDD9 /* URLRequest+Extensions.swift in Sources */,
-				E4DAEBB52A14080100ACBDD9 /* API.swift in Sources */,
 				E4DAEBB02A14080100ACBDD9 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
