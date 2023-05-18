@@ -1,21 +1,19 @@
 //
-//  MovieService.swift
+//  TrendingMoviesService.swift
 //  MovieDB
 //
-//  Created by Fabio Salata on 04/12/18.
-//  Copyright © 2018 Fabio Salata. All rights reserved.
+//  Created by Fabio Salata on 16/05/23.
 //
 
 import Foundation
-import Combine
 
-enum UpcomingMoviesTarget: ServiceTargetProtocol {
-    case upcoming(page: Int)
+enum TrendingMoviesService: ServiceTargetProtocol {
+    case trending(page: Int)
 }
 
-extension UpcomingMoviesTarget {
+extension TrendingMoviesService {
     var path: String {
-        "movie/upcoming"
+        "movie/popular"
     }
 
     var method: RequestMethod {
@@ -31,8 +29,9 @@ extension UpcomingMoviesTarget {
 
     var parameters: JSON? {
         var parameters: JSON = [:]
+        
         switch self {
-        case let .upcoming(page):
+        case let .trending(page):
             parameters["page"] = "\(page)"
         }
 
@@ -40,6 +39,6 @@ extension UpcomingMoviesTarget {
     }
 
     var body: Data? {
-        return nil
+        nil
     }
 }

@@ -8,5 +8,7 @@
 import Foundation
 
 protocol UpcomingMoviesServiceProtocol {
-    func fetchUpcoming(page: Int) async throws -> ([Movie], URLResponse)
+    var api: API { get }
+
+    func fetchUpcoming(page: Int) async throws -> MoviesResult
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol GenresServiceProtocol {
-    func fetchGenres() async throws -> ([GenresResult], URLResponse)
+    func fetchGenres() async throws -> GenresResult
 }

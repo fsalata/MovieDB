@@ -8,16 +8,19 @@ import Foundation
 class APIClient {
     private var session: URLSessionProtocol
     private(set) var api: APIProtocol
+    private var decoder: JSONDecoder
 
     init(session: URLSessionProtocol = URLSession.shared,
-         api: APIProtocol) {
+         api: APIProtocol,
+         decoder: JSONDecoder) {
         self.session = session
         self.api = api
+        self.decoder = decoder
     }
 
     /// Async Request
     /// - Returns: (T: Decodable, URLResponse?)
-    func request<T: Decodable>(target: ServiceTargetProtocol) async throws -> (T, URLResponse) {
+    func request<T: Decodable>(target: ServiceTargetProtocol) async throws -> T {
         guard var urlRequest = try? URLRequest(baseURL: api.baseURL, target: target) else {
             throw APIError.network(.badURL)
         }
@@ -25,8 +28,6 @@ class APIClient {
         urlRequest.allHTTPHeaderFields = target.header
 
         let (data, response) = try await session.data(for: urlRequest, delegate: nil)
-        
-        try Task.checkCancellation()
 
         if let response = response as? HTTPURLResponse,
            response.validationStatus != .success {
@@ -39,9 +40,9 @@ class APIClient {
         
         debugResponse(request: urlRequest, data: data, response: response, error: nil)
         
-        let decodedData = try JSONDecoder().decode(T.self, from: data)
+        let decodedData = try decoder.decode(T.self, from: data)
 
-        return (decodedData, response)
+        return decodedData
     }
 }
 

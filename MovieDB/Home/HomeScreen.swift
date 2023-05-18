@@ -8,22 +8,60 @@
 import SwiftUI
 
 struct HomeScreen: View {
-    let repository: MoviesRepository = {
-        let api = API()
-        let client = APIClient(api: api)
-        return MoviesRepository(client: client)
-    }()
+    @ObservedObject var viewModel: HomeViewModel
+
+    init(repository: MoviesRepository) {
+        self.viewModel = HomeViewModel(repository: repository)
+    }
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .task {
-                try? await repository.fetchGenres()
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack {
+                    if !viewModel.trendingMovies.isEmpty || !viewModel.upcomingMovies.isEmpty {
+                        if !viewModel.trendingMovies.isEmpty {
+                            MovieCardList(title: "Trending", movies: viewModel.trendingMovies)
+                        }
+
+                        if !viewModel.upcomingMovies.isEmpty {
+                            MovieCardList(title: "Upcoming", movies: viewModel.upcomingMovies)
+                        }
+                    } else {
+                        Spacer()
+                        
+                        ProgressView()
+                    }
+                    
+                    Spacer()
+                }
+                .padding(.vertical, 16)
+                .task {
+                    viewModel.fetchHomeMovies()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Image("tmdb")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 150)
+                    }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(Color("AccentColor"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .environmentObject(viewModel)
             }
+        }
     }
 }
 
 struct HomeScreen_Previews: PreviewProvider {
+    static let api = API()
+    static let client = APIClient(api: Self.api, decoder: JSONDecoder())
+    static let repository = MoviesRepository(client: Self.client)
+
     static var previews: some View {
-        HomeScreen()
+        HomeScreen(repository: Self.repository)
     }
 }
