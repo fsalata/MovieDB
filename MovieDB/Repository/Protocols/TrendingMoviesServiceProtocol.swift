@@ -8,5 +8,7 @@
 import Foundation
 
 protocol TrendingMoviesServiceProtocol {
-    func fetchTrending(page: Int) async throws -> ([Movie], URLResponse)
+    var api: API { get }
+
+    func fetchTrending(page: Int) async throws -> MoviesResult
 }

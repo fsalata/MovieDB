@@ -35,7 +35,7 @@ struct Movie: Codable {
     let overview: String?
     let originalLanguage: String?
     let voteCount: Int?
-    let releaseDate: String?
+    let releaseDate: Date?
     let video: Bool?
     
     enum CodingKeys: String, CodingKey {

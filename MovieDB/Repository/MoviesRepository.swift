@@ -10,7 +10,10 @@ import Foundation
 final class MoviesRepository {
     private let client: APIClient
 
-    init(client: APIClient) {
+    let api: API
+
+    init(api: API = API(), client: APIClient) {
+        self.api = api
         self.client = client
     }
 }
@@ -19,21 +22,21 @@ final class MoviesRepository {
 
 // Genres
 extension MoviesRepository: GenresServiceProtocol {
-    func fetchGenres() async throws -> ([GenresResult], URLResponse) {
+    func fetchGenres() async throws -> GenresResult {
         try await client.request(target: GenresTarget.genres)
     }
 }
 
 // Trending
 extension MoviesRepository: TrendingMoviesServiceProtocol {
-    func fetchTrending(page: Int) async throws -> ([Movie], URLResponse) {
-        try await client.request(target: UpcomingMoviesTarget.upcoming(page: page))
+    func fetchTrending(page: Int) async throws -> MoviesResult {
+        try await client.request(target: TrendingMoviesService.trending(page: page))
     }
 }
 
 // Upcoming
 extension MoviesRepository: UpcomingMoviesServiceProtocol {
-    func fetchUpcoming(page: Int) async throws -> ([Movie], URLResponse) {
+    func fetchUpcoming(page: Int) async throws -> MoviesResult {
         try await client.request(target: UpcomingMoviesTarget.upcoming(page: page))
     }
 }
